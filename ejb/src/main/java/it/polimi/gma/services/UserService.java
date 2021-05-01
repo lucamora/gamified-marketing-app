@@ -1,5 +1,6 @@
 package it.polimi.gma.services;
 
+import it.polimi.gma.entities.Login;
 import it.polimi.gma.entities.User;
 import it.polimi.gma.exceptions.InvalidCredentialsException;
 
@@ -7,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import java.util.Date;
 import java.util.List;
 
 @Stateless(name = "UserServiceEJB")
@@ -34,6 +36,14 @@ public class UserService {
         }
 
         return users.get(0);
+    }
+
+    public void saveLogin(User user) {
+        Login login = new Login();
+        login.setUser(user);
+        login.setDate(new Date());
+
+        em.persist(login);
     }
 
     public void blockUser(User user) {

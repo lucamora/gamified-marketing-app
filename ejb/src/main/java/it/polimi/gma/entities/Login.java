@@ -14,7 +14,7 @@ public class Login {
     @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false)
     private User user;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
 
@@ -29,6 +29,10 @@ public class Login {
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getDate() {

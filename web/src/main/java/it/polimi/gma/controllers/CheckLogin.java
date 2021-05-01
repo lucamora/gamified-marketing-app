@@ -57,10 +57,14 @@ public class CheckLogin extends HttpServlet {
 
         if (user == null) {
             invalidCredentials(request, response);
-        } else {
-            request.getSession().setAttribute("user", user);
-            response.sendRedirect(getServletContext().getContextPath() + "/Home");
+            return;
         }
+
+        // store in the db that the user has logged in
+        userService.saveLogin(user);
+
+        request.getSession().setAttribute("user", user);
+        response.sendRedirect(getServletContext().getContextPath() + "/Home");
     }
 
     private void invalidCredentials(HttpServletRequest request, HttpServletResponse response) throws IOException {
