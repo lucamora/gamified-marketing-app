@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
+@NamedQuery(name = "User.checkCredentials",
+        query = "SELECT u FROM User u WHERE u.username = :usr AND u.password = :pwd")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,15 +60,15 @@ public class User implements Serializable {
         return points;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void resetPoints() {
+        this.points = 0;
     }
 
     public boolean isBlocked() {
         return blocked;
     }
 
-    public void setBlocked(boolean blocked) {
-        this.blocked = blocked;
+    public void blockUser() {
+        this.blocked = true;
     }
 }
