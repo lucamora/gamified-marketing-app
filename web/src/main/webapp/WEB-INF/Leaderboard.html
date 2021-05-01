@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Leaderboard</title>
+</head>
+<body>
+    <h1>Gamified Marketing Application</h1>
+    <h2>Leaderboard</h2>
+
+    <table>
+        <thead>
+            <th>Position</th>
+            <th>Username</th>
+            <th>Points</th>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${userStat.index} + 1">position</td>
+                <td th:text="${user.getUsername()}">username</td>
+                <td th:text="${user.getPoints()}">points</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -5,8 +5,13 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "User.checkCredentials",
-        query = "SELECT u FROM User u WHERE u.username = :usr AND u.password = :pwd")
+@NamedQueries({
+        @NamedQuery(name = "User.checkCredentials",
+                query = "SELECT u FROM User u WHERE u.username = :usr AND u.password = :pwd"),
+        // TODO: select only users that have filled the questionnaire of the day
+        @NamedQuery(name = "User.getLeaderboard",
+                query = "SELECT u FROM User u WHERE u.blocked = false ORDER BY u.points DESC")
+})
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

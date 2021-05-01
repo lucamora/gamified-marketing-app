@@ -55,4 +55,10 @@ public class UserService {
         user.resetPoints();
         em.merge(user);
     }
+
+    public List<User> getLeaderboard() {
+        List<User> users = em.createNamedQuery("User.getLeaderboard", User.class)
+            .getResultList();
+        return users;
+    }
 }

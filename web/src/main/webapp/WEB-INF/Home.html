@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Product of the day</title>
+</head>
+<body>
+    <h1>Gamified Marketing Application</h1>
+    <h2>Product of the day</h2>
+
+    <div th:if="${product == null}">There is no product of the day</div>
+    <div th:if="${not (product == null)}">
+        <h3 th:text="${product.getName()}">Product name</h3>
+        <img th:src="'img/' + ${product.getImage()}" width="200px"/>
+
+        <div th:if="${#lists.isEmpty(product.getReviews())}">
+             <span>No reviews</span>
+        </div>
+        <div th:if="${not #lists.isEmpty(product.getReviews())}">
+            <h4>Reviews</h4>
+            <div th:each="rev : ${product.getReviews()}">
+                <div th:text="${rev.getUser().getUsername()}" style="font-style: italic">User</div>
+                <div th:text="${rev.getComment()}">Review comment</div>
+                <hr th:if="${not revStat.last}"/>
+            </div>
+        </div>
+
+        <div th:if="${not user.isBlocked()}">
+            <h4>Questionnaire of the day</h4>
+            <a th:href="@{/CompileQuestionnaire}">Compile questionnaire</a>
+        </div>
+
+        <div>
+            <h4>Leaderboard</h4>
+            <a th:href="@{/Leaderboard}">View leaderboard</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,8 +1,7 @@
 package it.polimi.gma.controllers;
 
-import it.polimi.gma.entities.Product;
 import it.polimi.gma.entities.User;
-import it.polimi.gma.services.ProductService;
+import it.polimi.gma.services.UserService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import utils.ThymeleafFactory;
@@ -12,14 +11,14 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
-@WebServlet(name = "GoToHomePage", value = "/Home")
-public class GoToHomePage extends HttpServlet {
+@WebServlet(name = "GetLeaderboard", value = "/Leaderboard")
+public class GetLeaderboard extends HttpServlet {
     private TemplateEngine templateEngine;
 
-    @EJB(name = "ProductServiceEJB")
-    private ProductService productService;
+    @EJB(name = "UserServiceEJB")
+    private UserService userService;
 
     @Override
     public void init() throws ServletException {
@@ -35,12 +34,11 @@ public class GoToHomePage extends HttpServlet {
             return;
         }
 
-        Product product = productService.getProductOfTheDay();
+        List<User> users = userService.getLeaderboard();
 
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        ctx.setVariable("product", product);
-        ctx.setVariable("user", (User)session.getAttribute("user"));
-        templateEngine.process("/WEB-INF/Home.html", ctx, response.getWriter());
+        ctx.setVariable("users", users);
+        templateEngine.process("/WEB-INF/Leaderboard.html", ctx, response.getWriter());
     }
 }

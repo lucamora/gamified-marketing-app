@@ -6,6 +6,8 @@ import java.util.List;
 
 @Table(name = "products")
 @Entity
+@NamedQuery(name = "Product.getOfTheDay",
+        query = "SELECT p FROM Product p WHERE p.date = CURRENT_DATE")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
