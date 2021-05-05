@@ -40,7 +40,13 @@ public class SubmitQuestionnaire extends HttpServlet {
             return;
         }
 
-        // TODO: save questionnaire
+        // get current user from session
+        User user = (User)session.getAttribute("user");
+
+        if (!checkIfCanSubmit(response, user)) {
+            return;
+        }
+
         // get marketing questions from session
         @SuppressWarnings("unchecked")
         Map<Integer, String> answers = (Map<Integer, String>)session.getAttribute("answers");
@@ -49,9 +55,6 @@ public class SubmitQuestionnaire extends HttpServlet {
         answers.put(1, request.getParameter("age"));
         answers.put(2, request.getParameter("sex"));
         answers.put(3, request.getParameter("expertise"));
-
-        // get current user from session
-        User user = (User)session.getAttribute("user");
 
         String status = "";
         try {
@@ -84,5 +87,14 @@ public class SubmitQuestionnaire extends HttpServlet {
         ctx.setVariable("status", status);
 
         templateEngine.process("/WEB-INF/PostSubmission.html", ctx, response.getWriter());
+    }
+
+    private boolean checkIfCanSubmit(HttpServletResponse response, User user) throws IOException {
+        boolean canSubmit = questionnaireService.checkIfCanSubmit(user);
+        if (user.isBlocked() || !canSubmit) {
+            response.sendRedirect(getServletContext().getContextPath() + "/Home");
+            return false;
+        }
+        return true;
     }
 }

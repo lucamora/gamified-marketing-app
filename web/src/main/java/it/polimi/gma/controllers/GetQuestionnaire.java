@@ -1,8 +1,8 @@
 package it.polimi.gma.controllers;
 
-import it.polimi.gma.entities.Question;
 import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.Section;
+import it.polimi.gma.entities.User;
 import it.polimi.gma.services.QuestionnaireService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -36,6 +36,10 @@ public class GetQuestionnaire extends HttpServlet {
             return;
         }
 
+        if (!checkIfCanSubmit(response, (User)session.getAttribute("user"))) {
+            return;
+        }
+
         // clear session attributes before starting the questionnaire
         session.removeAttribute("answers");
         session.removeAttribute("age");
@@ -57,6 +61,10 @@ public class GetQuestionnaire extends HttpServlet {
         HttpSession session = request.getSession();
         if (session.isNew() || session.getAttribute("user") == null) {
             response.sendRedirect(getServletContext().getContextPath() + "/index.html");
+            return;
+        }
+
+        if (!checkIfCanSubmit(response, (User)session.getAttribute("user"))) {
             return;
         }
 
@@ -97,5 +105,14 @@ public class GetQuestionnaire extends HttpServlet {
         }
 
         templateEngine.process("/WEB-INF/Questionnaire" + filename + ".html", ctx, response.getWriter());
+    }
+
+    private boolean checkIfCanSubmit(HttpServletResponse response, User user) throws IOException {
+        boolean canSubmit = questionnaireService.checkIfCanSubmit(user);
+        if (user.isBlocked() || !canSubmit) {
+            response.sendRedirect(getServletContext().getContextPath() + "/Home");
+            return false;
+        }
+        return true;
     }
 }

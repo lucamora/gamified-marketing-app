@@ -25,9 +25,10 @@
             </div>
         </div>
 
-        <div th:if="${not user.isBlocked()}">
+        <div th:if="${not userBlocked}">
             <h4>Questionnaire of the day</h4>
-            <a th:href="@{/GetQuestionnaire}">Compile questionnaire</a>
+            <a th:if="${canSubmit}" th:href="@{/GetQuestionnaire}">Compile questionnaire</a>
+            <span th:if="${not canSubmit}" style="font-style: italic">Questionnaire of the day already submitted!</span>
         </div>
 
         <div>

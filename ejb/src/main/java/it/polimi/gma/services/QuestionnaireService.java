@@ -29,6 +29,10 @@ public class QuestionnaireService {
                         .getResultList();
     }
 
+    /**
+     * Returns the questionnaire of the day
+     * @return questionnaire of the day
+     */
     public Questionnaire getQuestionnaireOfTheDay() {
         try {
             return em.createNamedQuery("Questionnaire.getOfTheDay", Questionnaire.class)
@@ -39,6 +43,29 @@ public class QuestionnaireService {
         }
     }
 
+    /**
+     * Check if a user has already submitted the questionnaire of the day
+     * @param user user to be checked
+     * @return true if the user has not already submitted the questionnaire
+     */
+    public boolean checkIfCanSubmit(User user) {
+        Questionnaire questionnaire = getQuestionnaireOfTheDay();
+
+        List<Answer> answers = em.createNamedQuery("Answer.getByUserAndQuestionnaire", Answer.class)
+                .setParameter("usr", user)
+                .setParameter("quest", questionnaire)
+                .getResultList();
+
+        return answers.isEmpty();
+    }
+
+    /**
+     * Validate and save a submitted questionnaire
+     * @param answers answers of the user
+     * @param user user that submitted the questionnaire
+     * @throws OffensiveWordException user inserted an offensive word
+     * @throws EmptyAnswerException user has not compiled a mandatory question
+     */
     public void submit(Map<Integer, String> answers, User user) throws OffensiveWordException, EmptyAnswerException {
         Questionnaire questionnaire = getQuestionnaireOfTheDay();
 
@@ -52,7 +79,7 @@ public class QuestionnaireService {
 
             Question question = em.find(Question.class, id);
 
-            // check if mandatory questions have responses
+            // check if mandatory question has an answer
             if (!validateMandatory(question, text)) {
                 throw new EmptyAnswerException("Mandatory question is empty");
             }
@@ -68,6 +95,11 @@ public class QuestionnaireService {
         }
     }
 
+    /**
+     * Check if an answer contains an offensive word
+     * @param answer answer to be checked
+     * @return true if answer contains an offensive word
+     */
     private boolean containsOffensiveWord(String answer) {
         String text = answer.toLowerCase();
 
@@ -80,6 +112,12 @@ public class QuestionnaireService {
         return false;
     }
 
+    /**
+     * Check that mandatory questions are not empty
+     * @param question question to be checked
+     * @param answer answer of the user
+     * @return false if a mandatory question has an empty answer
+     */
     private boolean validateMandatory(Question question, String answer) {
         if (question.getSection().isMandatory()) {
             return !answer.isEmpty();
