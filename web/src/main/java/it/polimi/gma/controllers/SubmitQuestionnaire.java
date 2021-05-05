@@ -1,7 +1,10 @@
 package it.polimi.gma.controllers;
 
 import it.polimi.gma.entities.User;
+import it.polimi.gma.exceptions.EmptyAnswerException;
+import it.polimi.gma.exceptions.OffensiveWordException;
 import it.polimi.gma.services.QuestionnaireService;
+import it.polimi.gma.services.UserService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import utils.ThymeleafFactory;
@@ -19,6 +22,9 @@ public class SubmitQuestionnaire extends HttpServlet {
 
     @EJB(name = "QuestionnaireServiceEJB")
     private QuestionnaireService questionnaireService;
+
+    @EJB(name = "UserServiceEJB")
+    private UserService userService;
 
     @Override
     public void init() throws ServletException {
@@ -39,21 +45,32 @@ public class SubmitQuestionnaire extends HttpServlet {
         @SuppressWarnings("unchecked")
         Map<Integer, String> answers = (Map<Integer, String>)session.getAttribute("answers");
 
-        // check if marketing questions have responses
-        boolean invalid = false;
-        for (String ans : answers.values()) {
-            if (ans.isEmpty()) {
-                invalid = true;
-                break;
-            }
-        }
-
         // get statistical questions from form parameters
         answers.put(1, request.getParameter("age"));
         answers.put(2, request.getParameter("sex"));
         answers.put(3, request.getParameter("expertise"));
 
-        questionnaireService.submit(answers, (User)session.getAttribute("user"));
+        // get current user from session
+        User user = (User)session.getAttribute("user");
+
+        String status = "";
+        try {
+            questionnaireService.submit(answers, user);
+        }
+        catch (EmptyAnswerException e) {
+            // some marketing question does not have a response
+            status = "invalid";
+        }
+        catch (OffensiveWordException e) {
+            // user inserted an offensive word in an answer
+            status = "blocked";
+
+            // block user
+            userService.blockUser(user);
+
+            // update user in session
+            session.setAttribute("user", user);
+        }
 
         // clear session attributes after submission
         session.removeAttribute("answers");
@@ -64,7 +81,7 @@ public class SubmitQuestionnaire extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
-        ctx.setVariable("invalid", invalid);
+        ctx.setVariable("status", status);
 
         templateEngine.process("/WEB-INF/PostSubmission.html", ctx, response.getWriter());
     }

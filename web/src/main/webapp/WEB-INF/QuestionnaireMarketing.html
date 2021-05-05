@@ -17,7 +17,7 @@
                    th:name="${q.getId()}"
                    th:id="${q.getId()}"
                    th:value="${session.answers} ? ${session.answers[q.getId()]}"
-                   required>
+                   th:required="${q.getSection().isMandatory()}">
             <br><br>
         </div>
 

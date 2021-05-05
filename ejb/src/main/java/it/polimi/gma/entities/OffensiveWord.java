@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 @Table(name = "offensive_words")
 @Entity
+@NamedQuery(name = "OffensiveWord.getAll",
+        query = "SELECT w FROM OffensiveWord w")
 public class OffensiveWord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
