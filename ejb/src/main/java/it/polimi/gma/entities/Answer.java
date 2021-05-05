@@ -45,11 +45,23 @@ public class Answer {
         return questionnaire;
     }
 
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
+    }
+
     public Question getQuestion() {
         return question;
     }
 
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

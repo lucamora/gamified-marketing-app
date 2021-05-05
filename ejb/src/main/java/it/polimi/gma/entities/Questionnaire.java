@@ -3,9 +3,12 @@ package it.polimi.gma.entities;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Table(name = "questionnaires")
 @Entity
+@NamedQuery(name = "Questionnaire.getOfTheDay",
+        query = "SELECT q FROM Questionnaire q WHERE q.product.date = CURRENT_DATE")
 public class Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,9 +17,6 @@ public class Questionnaire {
     @JoinColumn(name = "product_id", nullable = false)
     @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false, orphanRemoval = true)
     private Product product;
-
-    @Temporal(TemporalType.DATE)
-    private Date date;
 
     @JoinTable(name = "questionnaires_questions",
             joinColumns = @JoinColumn(name = "questionnaire_id"),
@@ -38,15 +38,13 @@ public class Questionnaire {
         return product;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public List<Question> getQuestions() {
         return questions;
+    }
+
+    public List<Question> filterQuestions(Section section) {
+        return questions.stream()
+                .filter(q -> q.getSection().equals(section))
+                .collect(Collectors.toList());
     }
 }

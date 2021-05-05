@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Questionnaire</title>
+</head>
+<body>
+    <h1>Gamified Marketing Application</h1>
+    <h2>Questionnaire</h2>
+
+    <h3>Statistical questions</h3>
+    <form>
+        <div>
+            <label for="age">Select your age:</label>
+            <select name="age" id="age">
+                <option value="">Choose an option</option>
+                <option th:each="n : ${#numbers.sequence(0, 90, 10)}"
+                        th:value="${#strings.concat(n,'-',n+9)}"
+                        th:text="${#strings.concat(n,'-',n+9)}"
+                        th:selected="${#strings.equals(session.age, #strings.concat(n,'-',n+9))}">val</option>
+            </select>
+        </div>
+        <div>
+            <label for="sex">Select your sex:</label>
+            <select name="sex" id="sex">
+                <option value="">Choose an option</option>
+                <option value="m" th:selected="${#strings.equals(session.sex, 'm')}">M</option>
+                <option value="f" th:selected="${#strings.equals(session.sex, 'f')}">F</option>
+                <option value="other" th:selected="${#strings.equals(session.sex, 'other')}">Other</option>
+            </select>
+        </div>
+        <div>
+            <label for="expertise">Select your expertise level:</label>
+            <select name="expertise" id="expertise">
+                <option value="">Choose an option</option>
+                <option value="low" th:selected="${#strings.equals(session.expertise, 'low')}">Low</option>
+                <option value="medium" th:selected="${#strings.equals(session.expertise, 'medium')}">Medium</option>
+                <option value="high" th:selected="${#strings.equals(session.expertise, 'high')}">High</option>
+            </select>
+        </div>
+
+        <a th:href="@{/Home}"><button type="button">cancel</button></a>
+        <input type="submit" name="previous" value="previous" formaction="GetQuestionnaire" formmethod="POST">
+        <input type="submit" value="submit" formaction="SubmitQuestionnaire" formmethod="POST">
+    </form>
+</body>
+</html>

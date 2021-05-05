@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Thank you!</title>
+</head>
+<body>
+    <h1>Gamified Marketing Application</h1>
+
+    <div th:if="${invalid}">
+        <h2>Invalid questionnaire!</h2>
+        <h3>You have not answered all the mandatory marketing questions.</h3>
+        <div>Go back to the homepage and try again.</div>
+    </div>
+
+    <div th:if="${not invalid}">
+        <h2>Thank you!</h2>
+        <h3>Questionnaire submitted successfully!</h3>
+        <div>Thank you for your submission!</div>
+        <br>
+    </div>
+    <a th:href="@{/Home}">Go to home</a>
+</body>
+</html>

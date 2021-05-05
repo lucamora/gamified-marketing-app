@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Questionnaire</title>
+</head>
+<body>
+    <h1>Gamified Marketing Application</h1>
+    <h2>Questionnaire</h2>
+
+    <h3>Marketing questions</h3>
+    <form>
+        <div th:each="q : ${questions}">
+            <label th:text="${q.getQuestion()}"
+                   th:for="${q.getId()}">Question</label>
+            <input type="text"
+                   th:name="${q.getId()}"
+                   th:id="${q.getId()}"
+                   th:value="${session.answers} ? ${session.answers[q.getId()]}"
+                   required>
+            <br><br>
+        </div>
+
+        <a th:href="@{/Home}"><button type="button">cancel</button></a>
+        <input type="submit" name="next" value="next" formaction="GetQuestionnaire" formmethod="POST">
+    </form>
+</body>
+</html>
