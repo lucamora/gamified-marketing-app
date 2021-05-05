@@ -8,9 +8,8 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "User.checkCredentials",
                 query = "SELECT u FROM User u WHERE u.username = :usr AND u.password = :pwd"),
-        // TODO: select only users that have filled the questionnaire of the day
         @NamedQuery(name = "User.getLeaderboard",
-                query = "SELECT u FROM User u WHERE u.blocked = false ORDER BY u.points DESC")
+                query = "SELECT DISTINCT u FROM User u LEFT JOIN Answer a ON a.user = u WHERE u.blocked = false AND a.questionnaire = :quest ORDER BY u.points DESC")
 })
 public class User implements Serializable {
     @Id

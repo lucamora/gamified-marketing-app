@@ -1,6 +1,7 @@
 package it.polimi.gma.services;
 
 import it.polimi.gma.entities.Login;
+import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.User;
 import it.polimi.gma.exceptions.InvalidCredentialsException;
 
@@ -56,9 +57,9 @@ public class UserService {
         em.merge(user);
     }
 
-    public List<User> getLeaderboard() {
-        List<User> users = em.createNamedQuery("User.getLeaderboard", User.class)
+    public List<User> getLeaderboard(Questionnaire questionnaire) {
+        return em.createNamedQuery("User.getLeaderboard", User.class)
+                .setParameter("quest", questionnaire)
             .getResultList();
-        return users;
     }
 }
