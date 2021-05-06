@@ -4,9 +4,9 @@ import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.Section;
 import it.polimi.gma.entities.User;
 import it.polimi.gma.services.QuestionnaireService;
+import it.polimi.gma.utils.ThymeleafFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import utils.ThymeleafFactory;
 
 import javax.ejb.EJB;
 import javax.servlet.*;

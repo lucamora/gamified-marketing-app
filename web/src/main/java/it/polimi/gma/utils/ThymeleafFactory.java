@@ -1,4 +1,4 @@
-package utils;
+package it.polimi.gma.utils;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;

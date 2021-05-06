@@ -5,9 +5,9 @@ import it.polimi.gma.exceptions.EmptyAnswerException;
 import it.polimi.gma.exceptions.OffensiveWordException;
 import it.polimi.gma.services.QuestionnaireService;
 import it.polimi.gma.services.UserService;
+import it.polimi.gma.utils.ThymeleafFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import utils.ThymeleafFactory;
 
 import javax.ejb.EJB;
 import javax.servlet.*;
