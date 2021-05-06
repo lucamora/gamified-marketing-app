@@ -13,8 +13,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "CheckLogin", value = "/CheckLogin")
-public class CheckLogin extends HttpServlet {
+@WebServlet(name = "Register", value = "/Registration")
+public class Register extends HttpServlet {
     private TemplateEngine templateEngine;
 
     @EJB(name = "UserServiceEJB")
@@ -27,50 +27,48 @@ public class CheckLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // obtain params
+        // get fields
+        String email = null;
         String usr = null;
         String pwd = null;
         try {
+            email = request.getParameter("email");
             usr = request.getParameter("username");
             pwd = request.getParameter("password");
-            if (usr == null || pwd == null || usr.isEmpty() || pwd.isEmpty()) {
+            if (email == null || usr == null || pwd == null ||
+                    email.isEmpty() || usr.isEmpty() || pwd.isEmpty()) {
                 throw new Exception("Missing or empty credential value");
             }
-
-        } catch (Exception e) {
-            //response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
-            invalidCredentials(request, response);
+        }
+        catch (Exception e) {
+            invalidCredentials(e.getMessage(), request, response);
             return;
         }
 
         User user;
         try {
-            // query db to authenticate for user
-            user = userService.checkCredentials(usr, pwd);
-        } catch (CredentialsException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+            user = userService.registerUser(email, usr, pwd);
+        }
+        catch (CredentialsException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not register user");
             return;
         }
-
-        // If the user exists, add info to the session and go to home page, otherwise
-        // show login page with error message
 
         if (user == null) {
-            invalidCredentials(request, response);
+            invalidCredentials("Username already registered", request, response);
             return;
         }
 
-        // store in the db that the user has logged in
-        userService.saveLogin(user);
-
-        request.getSession().setAttribute("user", user);
-        response.sendRedirect(getServletContext().getContextPath() + "/Home");
-    }
-
-    private void invalidCredentials(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        ctx.setVariable("errorMessage", "Incorrect username or password");
+        ctx.setVariable("successMessage", "Registration completed! Please login to use the service");
         templateEngine.process("/index.html", ctx, response.getWriter());
+    }
+
+    private void invalidCredentials(String message, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ServletContext servletContext = getServletContext();
+        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+        ctx.setVariable("errorMessage", message);
+        templateEngine.process("/registration.html", ctx, response.getWriter());
     }
 }

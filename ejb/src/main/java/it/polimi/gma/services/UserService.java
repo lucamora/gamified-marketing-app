@@ -3,7 +3,7 @@ package it.polimi.gma.services;
 import it.polimi.gma.entities.Login;
 import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.User;
-import it.polimi.gma.exceptions.InvalidCredentialsException;
+import it.polimi.gma.exceptions.CredentialsException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,16 +20,16 @@ public class UserService {
     public UserService() {
     }
 
-    public User checkCredentials(String username, String password) throws InvalidCredentialsException {
+    public User checkCredentials(String username, String password) throws CredentialsException {
         List<User> users = null;
         try {
             users = em.createNamedQuery("User.checkCredentials", User.class)
-                    .setParameter("usr", username)
-                    .setParameter("pwd", password)
+                    .setParameter("usr", username.trim())
+                    .setParameter("pwd", password.trim())
                     .getResultList();
         }
         catch (PersistenceException e) {
-            throw new InvalidCredentialsException("Could not verify credentials");
+            throw new CredentialsException("Could not verify credentials");
         }
 
         if (users.size() != 1) {
@@ -37,6 +37,30 @@ public class UserService {
         }
 
         return users.get(0);
+    }
+
+    public User registerUser(String email, String username, String password) throws CredentialsException {
+        List<User> user = null;
+        try {
+            user = em.createNamedQuery("User.getByUsername", User.class)
+                    .setParameter("usr", username.trim())
+                    .getResultList();
+        }
+        catch (PersistenceException e) {
+            throw new CredentialsException("Could not verify credentials");
+        }
+
+        if (!user.isEmpty()) {
+            return null;
+        }
+
+        User newUser = new User();
+        newUser.setEmail(email.trim());
+        newUser.setUsername(username.trim());
+        newUser.setPassword(password.trim());
+
+        em.persist(newUser);
+        return newUser;
     }
 
     public void saveLogin(User user) {
