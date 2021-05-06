@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Admin login</title>
+</head>
+<body>
+<h1>Gamified Marketing Application</h1>
+<h2>Admin Login</h2>
+
+    <form action="CheckLogin" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <input type="submit" value="login">
+        <p th:text=" ${errorMessage}"></p>
+    </form>
+</body>
+</html>

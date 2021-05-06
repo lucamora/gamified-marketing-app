@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 @Table(name = "administrators")
 @Entity
+@NamedQuery(name = "Administrator.checkCredentials",
+        query = "SELECT a FROM Administrator a WHERE a.username = :usr AND a.password = :pwd")
 public class Administrator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
