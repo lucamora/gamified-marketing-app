@@ -3,6 +3,7 @@ package it.polimi.gma.services;
 import it.polimi.gma.entities.Login;
 import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.User;
+import it.polimi.gma.exceptions.AlreadyRegisteredException;
 import it.polimi.gma.exceptions.CredentialsException;
 
 import javax.ejb.Stateless;
@@ -39,7 +40,7 @@ public class UserService {
         return users.get(0);
     }
 
-    public User registerUser(String email, String username, String password) throws CredentialsException {
+    public User registerUser(String email, String username, String password) throws CredentialsException, AlreadyRegisteredException {
         List<User> user = null;
         try {
             user = em.createNamedQuery("User.getByUsername", User.class)
@@ -51,7 +52,7 @@ public class UserService {
         }
 
         if (!user.isEmpty()) {
-            return null;
+            throw new AlreadyRegisteredException("Username already registered");
         }
 
         User newUser = new User();

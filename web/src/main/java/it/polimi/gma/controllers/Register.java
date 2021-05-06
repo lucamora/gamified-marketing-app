@@ -1,6 +1,7 @@
 package it.polimi.gma.controllers;
 
 import it.polimi.gma.entities.User;
+import it.polimi.gma.exceptions.AlreadyRegisteredException;
 import it.polimi.gma.exceptions.CredentialsException;
 import it.polimi.gma.services.UserService;
 import it.polimi.gma.utils.ThymeleafFactory;
@@ -45,16 +46,14 @@ public class Register extends HttpServlet {
             return;
         }
 
-        User user;
         try {
-            user = userService.registerUser(email, usr, pwd);
+            userService.registerUser(email, usr, pwd);
         }
         catch (CredentialsException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not register user");
             return;
         }
-
-        if (user == null) {
+        catch (AlreadyRegisteredException e) {
             invalidCredentials("Username already registered", request, response);
             return;
         }
