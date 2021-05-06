@@ -6,12 +6,9 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="EclipseLink" />
         <datasource-mapping>
-          <factory-entry name="default" value="99f79d5a-2e11-40b8-8c87-53e452f03cf3" />
-          <factory-entry name="gma_persistence" value="fe0386d3-e139-4366-a985-df10cf9113c6" />
+          <factory-entry name="gma_persistence" value="8963eff8-7172-495b-913a-3ecf4663e6eb" />
         </datasource-mapping>
-        <naming-strategy-map>
-          <unit-entry name="gma_persistence" />
-        </naming-strategy-map>
+        <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
@@ -36,7 +33,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="13" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-web-api:8.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.persistence:eclipselink:2.7.8" level="project" />
@@ -48,7 +45,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-commons:1.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: javax:javaee-web-api:8.0.1" level="project" />
     <orderEntry type="library" name="Maven: javax:javaee-web-api:8.0.1" level="project" />
   </component>
 </module>

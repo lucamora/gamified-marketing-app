@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.polimi.gma</groupId>
-    <artifactId>gma-ejb</artifactId>
+    <artifactId>gma-admin</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>gma-ejb</name>
+    <name>gma-admin</name>
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -21,10 +22,10 @@
             <artifactId>javaee-web-api</artifactId>
             <version>8.0.1</version>
             <scope>provided</scope>
-        </dependency>                                                                                            <dependency>
-        <groupId>org.eclipse.persistence</groupId>
-        <artifactId>eclipselink</artifactId>
-        <version>2.7.8</version>
+        </dependency>                                                                                                                    <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf</artifactId>
+        <version>3.0.12.RELEASE</version>
     </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -38,10 +39,21 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>it.polimi.gma</groupId>
+            <artifactId>gma-ejb</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
         </plugins>
     </build>
 </project>
