@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Create product</title>
+</head>
+<body>
+    <h1>Gamified Marketing Application</h1>
+    <h2>Create product</h2>
+
+    <form action="CreateProduct" method="POST" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Product</legend>
+            <div>
+                <label for="name">Product name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="image">Product image:</label>
+                <input type="file" id="image" name="image"
+                       accept=".png">
+            </div>
+            <div>
+                <label for="date">Publish date:</label>
+                <input type="date" id="date" name="date"
+                       th:min="${#dates.format(date, 'yyyy-MM-dd')}"
+                       th:value="${#dates.format(date, 'yyyy-MM-dd')}"
+                       required>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Marketing questions</legend>
+            <div id="marketing_questions">
+                <div>
+                    <label for="question_1">Question 1:</label>
+                    <input type="text" id="question_1" name="question_1" required>
+                </div>
+            </div>
+            <button type="button" onclick="addQuestion()">&plus;</button>
+        </fieldset>
+
+        <input type="submit" name="create">
+    </form>
+    <script>
+        let questionsCount = 1;
+        function addQuestion() {
+            questionsCount++;
+            let container = document.getElementById("marketing_questions");
+
+            let div = document.createElement("div");
+
+            let label = document.createElement("label");
+            label.htmlFor = "question_" + questionsCount;
+            label.innerText = "Question " + questionsCount + ":";
+
+            let input = document.createElement("input");
+            input.type = "text";
+            input.id = "question_" + questionsCount;
+            input.name = "question_" + questionsCount;
+            input.required = true;
+
+            div.appendChild(label);
+            div.appendChild(input);
+            container.appendChild(div);
+        }
+    </script>
+</body>
+</html>

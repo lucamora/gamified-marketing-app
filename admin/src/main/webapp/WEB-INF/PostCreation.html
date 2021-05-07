@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Product created</title>
+</head>
+<body>
+    <div style="text-align: right">
+        <a th:href="@{/Home}">Go to home</a>
+        <a th:href="@{/Logout}">Logout</a>
+    </div>
+
+    <h1>Gamified Marketing Application</h1>
+    <h2>Product created successfully</h2>
+
+    <h3 th:text="${name}"></h3>
+    <div th:text="${'Publish date: ' + #dates.format(date, 'yyyy-MM-dd')}"></div>
+    <img th:src="*{'data:image/png;base64,'+ image}" width="200px"/>
+    <h4>Marketing questions:</h4>
+    <div th:each="q : ${questions}" th:text="${(qStat.index + 1) + ': ' + q}"></div>
+</body>
+</html>

@@ -1,13 +1,18 @@
 package it.polimi.gma.entities;
 
 import javax.persistence.*;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
 @Table(name = "products")
 @Entity
-@NamedQuery(name = "Product.getOfTheDay",
-        query = "SELECT p FROM Product p WHERE p.date = CURRENT_DATE")
+@NamedQueries({
+        @NamedQuery(name = "Product.getOfTheDay",
+                query = "SELECT p FROM Product p WHERE p.date = CURRENT_DATE"),
+        @NamedQuery(name = "Product.getByDate",
+                query = "SELECT p FROM Product p WHERE p.date = :date")
+})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,13 +20,12 @@ public class Product {
 
     private String name;
 
-    private String image;
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    private byte[] image;
 
     @Temporal(TemporalType.DATE)
     private Date date;
-
-    @OneToOne(mappedBy = "product", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
-    private Questionnaire questionnaire;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Review> reviews;
@@ -45,10 +49,10 @@ public class Product {
     }
 
     public String getImage() {
-        return image;
+        return Base64.getMimeEncoder().encodeToString(image);
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
@@ -58,10 +62,6 @@ public class Product {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Questionnaire getQuestionnaire() {
-        return questionnaire;
     }
 
     public List<Review> getReviews() {

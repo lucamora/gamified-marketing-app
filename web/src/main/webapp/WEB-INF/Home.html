@@ -15,7 +15,7 @@
     <div th:if="${product == null}">There is no product of the day</div>
     <div th:if="${not (product == null)}">
         <h3 th:text="${product.getName()}">Product name</h3>
-        <img th:src="'img/' + ${product.getImage()}" width="200px"/>
+        <img th:src="*{'data:image/png;base64,'+ product.getImage()}" width="200px"/>
 
         <div th:if="${#lists.isEmpty(product.getReviews())}">
              <span>No reviews</span>

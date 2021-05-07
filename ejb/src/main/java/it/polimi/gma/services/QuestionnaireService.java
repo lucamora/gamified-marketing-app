@@ -44,6 +44,31 @@ public class QuestionnaireService {
     }
 
     /**
+     * Create a new questionnaire and associate it to a product
+     * @param product product related to the questionnaire
+     * @param questions marketing questions of the questionnaire
+     */
+    public void createQuestionnaire(Product product, List<String> questions) {
+        Questionnaire questionnaire = new Questionnaire();
+        questionnaire.setProduct(product);
+
+        for (String text : questions) {
+            Question question = new Question();
+            question.setQuestion(text.trim());
+            question.setSection(Section.MARKETING);
+
+            questionnaire.addQuestion(question);
+        }
+
+        // add statically statistical questions
+        questionnaire.addQuestion(em.find(Question.class, 1));
+        questionnaire.addQuestion(em.find(Question.class, 2));
+        questionnaire.addQuestion(em.find(Question.class, 3));
+
+        em.persist(questionnaire);
+    }
+
+    /**
      * Check if a user has already submitted the questionnaire of the day
      * @param user user to be checked
      * @return true if the user has not already submitted the questionnaire
