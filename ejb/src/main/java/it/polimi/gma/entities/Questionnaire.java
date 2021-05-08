@@ -8,15 +8,19 @@ import java.util.stream.Collectors;
 
 @Table(name = "questionnaires")
 @Entity
-@NamedQuery(name = "Questionnaire.getOfTheDay",
-        query = "SELECT q FROM Questionnaire q WHERE q.product.date = CURRENT_DATE")
+@NamedQueries({
+        @NamedQuery(name = "Questionnaire.getOfTheDay",
+                query = "SELECT q FROM Questionnaire q WHERE q.product.date = CURRENT_DATE"),
+        @NamedQuery(name = "Questionnaire.getPast",
+                query = "SELECT q FROM Questionnaire q WHERE q.product.date < CURRENT_DATE")
+})
 public class Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @JoinColumn(name = "product_id", nullable = false)
-    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false, orphanRemoval = true)
+    @OneToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private Product product;
 
     @JoinTable(name = "questionnaires_questions",

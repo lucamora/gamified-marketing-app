@@ -2,6 +2,8 @@ package it.polimi.gma.services;
 
 import it.polimi.gma.entities.*;
 import it.polimi.gma.exceptions.EmptyAnswerException;
+import it.polimi.gma.exceptions.InexistentQuestionnaire;
+import it.polimi.gma.exceptions.InvalidDateException;
 import it.polimi.gma.exceptions.OffensiveWordException;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +11,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -61,11 +65,41 @@ public class QuestionnaireService {
         }
 
         // add statically statistical questions
-        questionnaire.addQuestion(em.find(Question.class, 1));
-        questionnaire.addQuestion(em.find(Question.class, 2));
-        questionnaire.addQuestion(em.find(Question.class, 3));
+        //questionnaire.addQuestion(em.find(Question.class, 1));
+        //questionnaire.addQuestion(em.find(Question.class, 2));
+        //questionnaire.addQuestion(em.find(Question.class, 3));
 
         em.persist(questionnaire);
+    }
+
+    /**
+     * Return the questionnaires proposed in the past
+     * @return past questionnaires
+     */
+    public List<Questionnaire> getPastQuestionnaire() {
+        return em.createNamedQuery("Questionnaire.getPast", Questionnaire.class)
+                .getResultList();
+    }
+
+    /**
+     * Delete a questionnaire
+     * @param id id of the questionnaire
+     */
+    public Questionnaire deleteQuestionnaire(int id) throws InvalidDateException, InexistentQuestionnaire {
+        Questionnaire questionnaire = em.find(Questionnaire.class, id);
+
+        if (questionnaire == null) {
+            throw new InexistentQuestionnaire("Questionnaire does not exist");
+        }
+
+        // check if the date is valid (date preceding the current date)
+        LocalDate date = questionnaire.getProduct().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (!date.isBefore(LocalDate.now())) {
+            throw new InvalidDateException("Date should be a past date");
+        }
+
+        em.remove(questionnaire);
+        return questionnaire;
     }
 
     /**

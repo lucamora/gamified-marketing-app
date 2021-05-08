@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>GMA | Questionnaire deleted</title>
+</head>
+<body>
+    <div style="text-align: right">
+        <a th:href="@{/Home}">Go to home</a>
+        <a th:href="@{/Logout}">Logout</a>
+    </div>
+
+    <h1>Gamified Marketing Application</h1>
+    <h2>Questionnaire deleted successfully</h2>
+
+    <h3>Deleted questionnaire:</h3>
+    <div th:text="${'Product name: ' + name}"></div>
+    <div th:text="${'Publish date: ' + #dates.format(date, 'yyyy-MM-dd')}"></div>
+</body>
+</html>

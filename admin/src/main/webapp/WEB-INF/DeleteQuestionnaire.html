@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Delete questionnaire</title>
+</head>
+<body>
+    <h1>Gamified Marketing Application</h1>
+    <h2>Delete questionnaire</h2>
+
+    <form action="DeleteQuestionnaire" method="POST">
+        <div>
+        <label for="questionnaire">Select the questionnaire:</label>
+            <select name="questionnaire" id="questionnaire">
+                <option th:each="q : ${questionnaires}"
+                        th:value="${q.getId()}"
+                        th:text="${#strings.concat(q.getProduct().getName(),' (',#dates.format(q.getProduct().getDate(),'yyyy-MM-dd'),')')}">val</option>
+            </select>
+        </div>
+
+        <a th:href="@{/Home}"><button type="button">cancel</button></a>
+        <input type="submit" value="delete">
+    </form>
+</body>
+</html>
