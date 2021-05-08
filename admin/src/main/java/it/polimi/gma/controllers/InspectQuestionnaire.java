@@ -3,7 +3,6 @@ package it.polimi.gma.controllers;
 import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.User;
 import it.polimi.gma.services.QuestionnaireService;
-import it.polimi.gma.services.UserService;
 import it.polimi.gma.utils.ThymeleafFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -21,9 +20,6 @@ public class InspectQuestionnaire extends HttpServlet {
 
     @EJB(name = "QuestionnaireServiceEJB")
     QuestionnaireService questionnaireService;
-
-    @EJB(name = "UserServiceEJB")
-    UserService userService;
 
     @Override
     public void init() throws ServletException {
@@ -52,8 +48,8 @@ public class InspectQuestionnaire extends HttpServlet {
         List<User> usersCancelled = null;
         if (questionnaireId > -1) {
             questionnaire = questionnaireService.getQuestionnaireById(questionnaireId);
-            usersSubmitted = userService.getUsersSubmitted(questionnaire);
-            usersCancelled = userService.getUsersCancelled(questionnaire);
+            usersSubmitted = questionnaireService.getUsersSubmitted(questionnaire);
+            usersCancelled = questionnaireService.getUsersCancelled(questionnaire);
         }
 
         ServletContext servletContext = getServletContext();

@@ -2,7 +2,6 @@ package it.polimi.gma.controllers;
 
 import it.polimi.gma.entities.User;
 import it.polimi.gma.services.QuestionnaireService;
-import it.polimi.gma.services.UserService;
 import it.polimi.gma.utils.ThymeleafFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -17,9 +16,6 @@ import java.util.List;
 @WebServlet(name = "GetLeaderboard", value = "/Leaderboard")
 public class GetLeaderboard extends HttpServlet {
     private TemplateEngine templateEngine;
-
-    @EJB(name = "UserServiceEJB")
-    private UserService userService;
 
     @EJB(name = "QuestionnaireServiceEJB")
     private QuestionnaireService questionnaireService;
@@ -38,7 +34,7 @@ public class GetLeaderboard extends HttpServlet {
             return;
         }
 
-        List<User> users = userService.getLeaderboard(questionnaireService.getQuestionnaireOfTheDay());
+        List<User> users = questionnaireService.getLeaderboard();
 
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

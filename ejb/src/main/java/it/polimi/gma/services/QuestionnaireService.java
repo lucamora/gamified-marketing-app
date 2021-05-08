@@ -165,6 +165,39 @@ public class QuestionnaireService {
     }
 
     /**
+     * Return the leaderboard for the questionnaire of the day
+     * @return leaderboard of the questionnaire of the day
+     */
+    public List<User> getLeaderboard() {
+        return em.createNamedQuery("Questionnaire.getLeaderboard", User.class)
+                .setParameter("quest", getQuestionnaireOfTheDay())
+                .getResultList();
+    }
+
+    /**
+     * Return the users that submitted the specified questionnaire
+     * @param questionnaire questionnaire of interest
+     * @return users that submitted the questionnaire
+     */
+    public List<User> getUsersSubmitted(Questionnaire questionnaire) {
+        return em.createNamedQuery("Questionnaire.getUsersSubmitted", User.class)
+                .setParameter("quest", questionnaire)
+                .getResultList();
+    }
+
+    /**
+     * Return the users that cancelled the specified questionnaire
+     * @param questionnaire questionnaire of interest
+     * @return users that cancelled the questionnaire
+     */
+    public List<User> getUsersCancelled(Questionnaire questionnaire) {
+        return em.createNamedQuery("Questionnaire.getUsersCancelled", User.class)
+                .setParameter("date", questionnaire.getProduct().getDate())
+                .setParameter("quest", questionnaire)
+                .getResultList();
+    }
+
+    /**
      * Check if an answer contains an offensive word
      * @param answer answer to be checked
      * @return true if answer contains an offensive word

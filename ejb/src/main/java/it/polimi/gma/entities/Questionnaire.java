@@ -12,7 +12,14 @@ import java.util.stream.Collectors;
         @NamedQuery(name = "Questionnaire.getOfTheDay",
                 query = "SELECT q FROM Questionnaire q WHERE q.product.date = CURRENT_DATE"),
         @NamedQuery(name = "Questionnaire.getPast",
-                query = "SELECT q FROM Questionnaire q WHERE q.product.date < CURRENT_DATE")
+                query = "SELECT q FROM Questionnaire q WHERE q.product.date < CURRENT_DATE"),
+        @NamedQuery(name = "Questionnaire.getLeaderboard",
+                query = "SELECT DISTINCT a.user FROM Answer a WHERE a.user.blocked = false AND a.questionnaire = :quest ORDER BY a.user.points DESC"),
+        @NamedQuery(name = "Questionnaire.getUsersSubmitted",
+                query = "SELECT DISTINCT a.user FROM Answer a WHERE a.questionnaire = :quest"),
+        @NamedQuery(name = "Questionnaire.getUsersCancelled",
+                query = "SELECT DISTINCT l.user FROM Login l WHERE l.date = :date AND l.user NOT IN" +
+                        "(SELECT DISTINCT a.user FROM Answer a WHERE a.questionnaire = :quest)")
 })
 public class Questionnaire {
     @Id
@@ -29,7 +36,7 @@ public class Questionnaire {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
     private List<Question> questions;
 
-    @OrderBy("user.id, question.id")
+    @OrderBy("user, question")
     @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Answer> answers;
 
