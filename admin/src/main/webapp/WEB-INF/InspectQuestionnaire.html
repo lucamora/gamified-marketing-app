@@ -32,32 +32,14 @@
         <div th:text="${'Publish date: ' + #dates.format(questionnaire.getProduct().getDate(), 'yyyy-MM-dd')}">publish date</div>
 
         <h4>Users that submitted the questionnaire</h4>
-        <table>
-            <thead>
-                <th>Username</th>
-                <th>Points</th>
-            </thead>
-            <tbody>
-                <tr th:each="user : ${usersSubmitted}">
-                    <td th:text="${user.getUsername()}">username</td>
-                    <td th:text="${user.getPoints()}">points</td>
-                </tr>
-            </tbody>
-        </table>
+        <ul>
+            <li th:each="u : ${usersSubmitted}" th:text="${u.getUsername()}"></li>
+        </ul>
 
         <h4>Users that cancelled the questionnaire</h4>
-        <table>
-            <thead>
-            <th>Username</th>
-            <th>Points</th>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${usersCancelled}">
-                <td th:text="${user.getUsername()}">username</td>
-                <td th:text="${user.getPoints()}">points</td>
-            </tr>
-            </tbody>
-        </table>
+        <ul>
+            <li th:each="u : ${usersCancelled}" th:text="${u.getUsername()}"></li>
+        </ul>
 
         <h4>Questionnaire answers</h4>
         <table>

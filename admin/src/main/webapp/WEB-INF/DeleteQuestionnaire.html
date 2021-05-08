@@ -12,6 +12,7 @@
         <div>
         <label for="questionnaire">Select the questionnaire:</label>
             <select name="questionnaire" id="questionnaire">
+                <option value="">Select a questionnaire</option>
                 <option th:each="q : ${questionnaires}"
                         th:value="${q.getId()}"
                         th:text="${#strings.concat(q.getProduct().getName(),' (',#dates.format(q.getProduct().getDate(),'yyyy-MM-dd'),')')}">val</option>
