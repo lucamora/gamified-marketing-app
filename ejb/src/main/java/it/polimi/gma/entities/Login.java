@@ -11,11 +11,14 @@ public class Login {
     private int id;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false)
+    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private User user;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Temporal(TemporalType.TIME)
+    private Date time;
 
 
 
@@ -39,7 +42,12 @@ public class Login {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public Date getTime() {
+        return time;
+    }
+
+    public void setDateTime(Date now) {
+        this.date = now;
+        this.time = now;
     }
 }

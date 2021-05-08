@@ -67,7 +67,7 @@ public class UserService {
     public void saveLogin(User user) {
         Login login = new Login();
         login.setUser(user);
-        login.setDate(new Date());
+        login.setDateTime(new Date());
 
         em.persist(login);
     }
