@@ -40,7 +40,8 @@
             <button type="button" onclick="addQuestion()">&plus;</button>
         </fieldset>
 
-        <input type="submit" name="create">
+        <a th:href="@{/Home}"><button type="button">cancel</button></a>
+        <input type="submit" value="create">
     </form>
     <script>
         let questionsCount = 1;

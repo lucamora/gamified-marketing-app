@@ -1,5 +1,6 @@
 package it.polimi.gma.controllers;
 
+import it.polimi.gma.entities.Product;
 import it.polimi.gma.exceptions.AlreadyCreatedException;
 import it.polimi.gma.exceptions.InvalidDateException;
 import it.polimi.gma.services.ProductService;
@@ -96,8 +97,9 @@ public class CreateProduct extends HttpServlet {
             return;
         }
 
+        Product product;
         try {
-            productService.createProduct(name, date, image, questions);
+            product = productService.createProduct(name, date, image, questions);
         }
         catch (AlreadyCreatedException | InvalidDateException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -107,9 +109,7 @@ public class CreateProduct extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
-        ctx.setVariable("name", name);
-        ctx.setVariable("date", date);
-        ctx.setVariable("image", image);
+        ctx.setVariable("product", product);
         ctx.setVariable("questions", questions);
 
         templateEngine.process("/WEB-INF/PostCreation.html", ctx, response.getWriter());

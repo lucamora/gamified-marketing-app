@@ -35,7 +35,7 @@ public class ProductService {
         }
     }
 
-    public void createProduct(String name, Date date, byte[] image, List<String> questions) throws AlreadyCreatedException, InvalidDateException {
+    public Product createProduct(String name, Date date, byte[] image, List<String> questions) throws AlreadyCreatedException, InvalidDateException {
         // check if the date is valid (current date or a posterior date)
         LocalDate publish = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         if (publish.isBefore(LocalDate.now())) {
@@ -60,5 +60,7 @@ public class ProductService {
         questionnaireService.createQuestionnaire(product, questions);
 
         em.persist(product);
+
+        return product;
     }
 }

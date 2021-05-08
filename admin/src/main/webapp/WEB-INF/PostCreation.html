@@ -13,10 +13,13 @@
     <h1>Gamified Marketing Application</h1>
     <h2>Product created successfully</h2>
 
-    <h3 th:text="${name}"></h3>
-    <div th:text="${'Publish date: ' + #dates.format(date, 'yyyy-MM-dd')}"></div>
-    <img th:src="*{'data:image/png;base64,'+ image}" width="200px"/>
+    <h3 th:text="${product.getName()}"></h3>
+    <div th:text="${'Publish date: ' + #dates.format(product.getDate(), 'yyyy-MM-dd')}"></div>
+    <img th:src="*{'data:image/png;base64,'+ product.getImage()}" width="200px"/>
+
     <h4>Marketing questions:</h4>
-    <div th:each="q : ${questions}" th:text="${(qStat.index + 1) + ': ' + q}"></div>
+    <ol>
+        <li th:each="q : ${questions}" th:text="${q}"></li>
+    </ol>
 </body>
 </html>
