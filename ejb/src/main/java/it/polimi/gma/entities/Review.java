@@ -10,13 +10,13 @@ public class Review {
     private int id;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false)
+    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private User user;
 
     private String comment;
 
     @JoinColumn(name = "product_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false)
+    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private Product product;
 
 
