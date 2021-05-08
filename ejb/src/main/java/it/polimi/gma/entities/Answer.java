@@ -14,15 +14,15 @@ public class Answer {
     private String answer;
 
     @JoinColumn(name = "questionnaire_id")
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private Questionnaire questionnaire;
 
     @JoinColumn(name = "question_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false)
+    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private Question question;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, optional = false)
+    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private User user;
 
 

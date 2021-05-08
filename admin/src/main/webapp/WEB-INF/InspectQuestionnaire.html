@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GMA | Inspect questionnaire</title>
+</head>
+<body>
+    <div style="text-align: right">
+        <a th:href="@{/Home}">Go to home</a>
+        <a th:href="@{/Logout}">Logout</a>
+    </div>
+
+    <h1>Gamified Marketing Application</h1>
+    <h2>Inspect questionnaire</h2>
+
+    <form action="InspectQuestionnaire" method="GET">
+        <div>
+            <label for="questionnaire">Select the questionnaire:</label>
+            <select name="questionnaire" id="questionnaire">
+                <option value="">Select a questionnaire</option>
+                <option th:each="q : ${questionnaires}"
+                        th:value="${q.getId()}"
+                        th:text="${#strings.concat(q.getProduct().getName(),' (',#dates.format(q.getProduct().getDate(),'yyyy-MM-dd'),')')}">val</option>
+            </select>
+        </div>
+
+        <input type="submit" value="inspect">
+    </form>
+
+    <div th:if="${not (questionnaire == null)}">
+        <h3 th:text="${questionnaire.getProduct().getName()}">product name</h3>
+        <div th:text="${'Publish date: ' + #dates.format(questionnaire.getProduct().getDate(), 'yyyy-MM-dd')}">publish date</div>
+
+        <h4>Users that submitted the questionnaire</h4>
+        <table>
+            <thead>
+                <th>Username</th>
+                <th>Points</th>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${usersSubmitted}">
+                    <td th:text="${user.getUsername()}">username</td>
+                    <td th:text="${user.getPoints()}">points</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Users that cancelled the questionnaire</h4>
+        <table>
+            <thead>
+            <th>Username</th>
+            <th>Points</th>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${usersCancelled}">
+                <td th:text="${user.getUsername()}">username</td>
+                <td th:text="${user.getPoints()}">points</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h4>Questionnaire answers</h4>
+        <table>
+            <thead>
+                <th>User</th>
+                <th>Question</th>
+                <th>Answer</th>
+            </thead>
+            <tbody>
+                <tr th:each="ans : ${questionnaire.getAnswers()}">
+                    <td th:text="${ans.getUser().getUsername()}">user</td>
+                    <td th:text="${ans.getQuestion().getQuestion()}">question</td>
+                    <td th:text="${ans.getAnswer()}">answer</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

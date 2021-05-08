@@ -29,6 +29,10 @@ public class Questionnaire {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
     private List<Question> questions;
 
+    @OrderBy("user.id, question.id")
+    @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    private List<Answer> answers;
+
 
 
     public int getId() {
@@ -62,5 +66,13 @@ public class Questionnaire {
         return questions.stream()
                 .filter(q -> q.getSection().equals(section))
                 .collect(Collectors.toList());
+    }
+
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
     }
 }

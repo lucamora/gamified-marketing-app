@@ -48,6 +48,15 @@ public class QuestionnaireService {
     }
 
     /**
+     * Returns questionnaire with the specified id
+     * @param id id of the questionnaire
+     * @return questionnaire
+     */
+    public Questionnaire getQuestionnaireById(int id) {
+        return em.find(Questionnaire.class, id);
+    }
+
+    /**
      * Create a new questionnaire and associate it to a product
      * @param product product related to the questionnaire
      * @param questions marketing questions of the questionnaire
@@ -149,6 +158,7 @@ public class QuestionnaireService {
             answer.setAnswer(text);
             answer.setQuestionnaire(questionnaire);
             answer.setUser(user);
+            questionnaire.addAnswer(answer);
 
             em.persist(answer);
         }

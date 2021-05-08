@@ -11,7 +11,12 @@ import java.io.Serializable;
         @NamedQuery(name = "User.getByUsername",
                 query = "SELECT u FROM User u WHERE u.username = :usr"),
         @NamedQuery(name = "User.getLeaderboard",
-                query = "SELECT DISTINCT u FROM User u JOIN Answer a ON a.user = u WHERE u.blocked = false AND a.questionnaire = :quest ORDER BY u.points DESC")
+                query = "SELECT DISTINCT u FROM User u JOIN Answer a ON a.user = u WHERE u.blocked = false AND a.questionnaire = :quest ORDER BY u.points DESC"),
+        @NamedQuery(name = "User.getUsersSubmitted",
+                query = "SELECT DISTINCT u FROM User u JOIN Answer a ON a.user = u WHERE a.questionnaire = :quest"),
+        @NamedQuery(name = "User.getUsersCancelled",
+                query = "SELECT DISTINCT u FROM User u JOIN Login l on l.user = u WHERE l.date = :date AND u NOT IN" +
+                            "(SELECT DISTINCT a.user FROM Answer a WHERE a.questionnaire = :quest)")
 })
 public class User implements Serializable {
     @Id

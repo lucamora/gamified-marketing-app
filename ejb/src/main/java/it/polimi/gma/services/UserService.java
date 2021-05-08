@@ -85,6 +85,19 @@ public class UserService {
     public List<User> getLeaderboard(Questionnaire questionnaire) {
         return em.createNamedQuery("User.getLeaderboard", User.class)
                 .setParameter("quest", questionnaire)
-            .getResultList();
+                .getResultList();
+    }
+
+    public List<User> getUsersSubmitted(Questionnaire questionnaire) {
+        return em.createNamedQuery("User.getUsersSubmitted", User.class)
+                .setParameter("quest", questionnaire)
+                .getResultList();
+    }
+
+    public List<User> getUsersCancelled(Questionnaire questionnaire) {
+        return em.createNamedQuery("User.getUsersCancelled", User.class)
+                .setParameter("date", questionnaire.getProduct().getDate())
+                .setParameter("quest", questionnaire)
+                .getResultList();
     }
 }
