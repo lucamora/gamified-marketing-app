@@ -14,11 +14,8 @@ public class Login {
     @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private User user;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-
-    @Temporal(TemporalType.TIME)
-    private Date time;
 
 
 
@@ -42,12 +39,7 @@ public class Login {
         return date;
     }
 
-    public Date getTime() {
-        return time;
-    }
-
-    public void setDateTime(Date now) {
-        this.date = now;
-        this.time = now;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
