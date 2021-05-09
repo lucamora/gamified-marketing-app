@@ -137,6 +137,9 @@ public class QuestionnaireService {
     public void submit(Map<Integer, String> answers, User user) throws OffensiveWordException, EmptyAnswerException {
         Questionnaire questionnaire = getQuestionnaireOfTheDay();
 
+        // delete previous cancellation performed by the user
+        deleteCancellations(questionnaire, user);
+
         for (int id : answers.keySet()) {
             String text = answers.get(id).trim();
 
@@ -162,6 +165,20 @@ public class QuestionnaireService {
 
             em.persist(answer);
         }
+    }
+
+    /**
+     * Save the cancellation of the questionnaire of the day by a user
+     * @param user user that cancelled the questionnaire
+     */
+    public void cancel(User user) {
+        Questionnaire questionnaire = getQuestionnaireOfTheDay();
+
+        Cancellation cancellation = new Cancellation();
+        cancellation.setQuestionnaire(questionnaire);
+        cancellation.setUser(user);
+
+        em.persist(cancellation);
     }
 
     /**
@@ -192,7 +209,6 @@ public class QuestionnaireService {
      */
     public List<User> getUsersCancelled(Questionnaire questionnaire) {
         return em.createNamedQuery("Questionnaire.getUsersCancelled", User.class)
-                .setParameter("date", questionnaire.getProduct().getDate())
                 .setParameter("quest", questionnaire)
                 .getResultList();
     }
@@ -226,5 +242,22 @@ public class QuestionnaireService {
         }
 
         return true;
+    }
+
+    /**
+     * Remove the cancellation records performed by a user
+     * @param questionnaire cancelled questionnaire
+     * @param user user that performed the cancellation
+     */
+    private void deleteCancellations(Questionnaire questionnaire, User user) {
+        List<Cancellation> cancellations =
+                em.createNamedQuery("Cancellation.getByUserAndQuestionnaire", Cancellation.class)
+                        .setParameter("usr", user)
+                        .setParameter("quest", questionnaire)
+                        .getResultList();
+
+        for (Cancellation cancellation : cancellations) {
+            em.remove(cancellation);
+        }
     }
 }

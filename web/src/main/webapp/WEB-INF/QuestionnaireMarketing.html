@@ -21,7 +21,7 @@
             <br><br>
         </div>
 
-        <a th:href="@{/Home}"><button type="button">cancel</button></a>
+        <input type="submit" name="cancel" value="cancel" formaction="CancelQuestionnaire" formmethod="POST">
         <input type="submit" name="next" value="next" formaction="GetQuestionnaire" formmethod="POST">
     </form>
 </body>

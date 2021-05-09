@@ -7,6 +7,7 @@
     <jta-data-source>gma_db_conn</jta-data-source>
     <class>it.polimi.gma.entities.Administrator</class>
     <class>it.polimi.gma.entities.Answer</class>
+    <class>it.polimi.gma.entities.Cancellation</class>
     <class>it.polimi.gma.entities.Login</class>
     <class>it.polimi.gma.entities.OffensiveWord</class>
     <class>it.polimi.gma.entities.Product</class>

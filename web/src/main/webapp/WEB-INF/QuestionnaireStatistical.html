@@ -39,7 +39,7 @@
             </select>
         </div>
 
-        <a th:href="@{/Home}"><button type="button">cancel</button></a>
+        <input type="submit" name="cancel" value="cancel" formaction="CancelQuestionnaire" formmethod="POST">
         <input type="submit" name="previous" value="previous" formaction="GetQuestionnaire" formmethod="POST">
         <input type="submit" value="submit" formaction="SubmitQuestionnaire" formmethod="POST">
     </form>

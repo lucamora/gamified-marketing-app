@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
         @NamedQuery(name = "Questionnaire.getUsersSubmitted",
                 query = "SELECT DISTINCT a.user FROM Answer a WHERE a.questionnaire = :quest"),
         @NamedQuery(name = "Questionnaire.getUsersCancelled",
-                query = "SELECT DISTINCT l.user FROM Login l WHERE l.date = :date AND l.user NOT IN" +
-                        "(SELECT DISTINCT a.user FROM Answer a WHERE a.questionnaire = :quest)")
+                query = "SELECT DISTINCT c.user FROM Cancellation c WHERE c.questionnaire = :quest")
 })
 public class Questionnaire {
     @Id
@@ -39,6 +38,9 @@ public class Questionnaire {
     @OrderBy("user, question")
     @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Answer> answers;
+
+    @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    private List<Cancellation> cancellations;
 
 
 
@@ -81,5 +83,13 @@ public class Questionnaire {
 
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public List<Cancellation> getCancellations() {
+        return cancellations;
+    }
+
+    public void addCancellation(Cancellation cancellation) {
+        this.cancellations.add(cancellation);
     }
 }
