@@ -55,7 +55,7 @@ public class InspectQuestionnaire extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
-        ctx.setVariable("questionnaires", questionnaireService.getPastQuestionnaire());
+        ctx.setVariable("questionnaires", questionnaireService.getPastQuestionnaires());
         ctx.setVariable("questionnaire", questionnaire);
         ctx.setVariable("usersSubmitted", usersSubmitted);
         ctx.setVariable("usersCancelled", usersCancelled);

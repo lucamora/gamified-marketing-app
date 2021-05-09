@@ -38,7 +38,7 @@ public class DeleteQuestionnaire extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
-        ctx.setVariable("questionnaires", questionnaireService.getPastQuestionnaire());
+        ctx.setVariable("questionnaires", questionnaireService.getPastQuestionnaires());
 
         templateEngine.process("/WEB-INF/DeleteQuestionnaire.html", ctx, response.getWriter());
     }
@@ -74,7 +74,7 @@ public class DeleteQuestionnaire extends HttpServlet {
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
         ctx.setVariable("name", questionnaire.getProduct().getName());
-        ctx.setVariable("date", questionnaire.getProduct().getDate());
+        ctx.setVariable("date", questionnaire.getDate());
 
         templateEngine.process("/WEB-INF/PostDeletion.html", ctx, response.getWriter());
     }

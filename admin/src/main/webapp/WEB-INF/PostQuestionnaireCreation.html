@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>GMA | Questionnaire created</title>
+</head>
+<body>
+<div style="text-align: right">
+  <a th:href="@{/Home}">Go to home</a>
+  <a th:href="@{/Logout}">Logout</a>
+</div>
+
+<h1>Gamified Marketing Application</h1>
+<h2>Questionnaire created successfully</h2>
+
+<div th:text="${'Product: ' + questionnaire.getProduct().getName()}"></div>
+<div th:text="${'Publish date: ' + #dates.format(questionnaire.getDate(), 'yyyy-MM-dd')}">publish date</div>
+
+<h4>Marketing questions:</h4>
+<ol>
+  <li th:each="q : ${questionnaire.getQuestions()}" th:text="${q.getQuestion()}"></li>
+</ol>
+</body>
+</html>

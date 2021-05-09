@@ -2,7 +2,6 @@ package it.polimi.gma.controllers;
 
 import it.polimi.gma.entities.Product;
 import it.polimi.gma.exceptions.AlreadyCreatedException;
-import it.polimi.gma.exceptions.InvalidDateException;
 import it.polimi.gma.services.ProductService;
 import it.polimi.gma.utils.ImageReader;
 import it.polimi.gma.utils.ThymeleafFactory;
@@ -14,12 +13,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
 
 @WebServlet(name = "CreateProduct", value = "/CreateProduct")
 @MultipartConfig
@@ -61,17 +55,8 @@ public class CreateProduct extends HttpServlet {
         }
 
         String name = request.getParameter("name");
-        String dateStr = request.getParameter("date");
 
-        if (name == null || dateStr == null || name.isEmpty() || dateStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product parameters");
-            return;
-        }
-
-        Date date;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-        } catch (ParseException e) {
+        if (name == null || name.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product parameters");
             return;
         }
@@ -79,29 +64,11 @@ public class CreateProduct extends HttpServlet {
         Part imageFile = request.getPart("image");
         byte[] image = ImageReader.read(imageFile.getInputStream());
 
-        Enumeration<String> inputs = request.getParameterNames();
-        List<String> questions = new ArrayList<>();
-
-        while (inputs.hasMoreElements()) {
-            String param = inputs.nextElement();
-            if (param.startsWith("question_")) {
-                String quest = request.getParameter(param);
-                if (quest != null && !quest.trim().isEmpty()) {
-                    questions.add(quest);
-                }
-            }
-        }
-
-        if (questions.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product parameters");
-            return;
-        }
-
         Product product;
         try {
-            product = productService.createProduct(name, date, image, questions);
+            product = productService.createProduct(name, image);
         }
-        catch (AlreadyCreatedException | InvalidDateException e) {
+        catch (AlreadyCreatedException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
             return;
         }
@@ -110,8 +77,7 @@ public class CreateProduct extends HttpServlet {
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
         ctx.setVariable("product", product);
-        ctx.setVariable("questions", questions);
 
-        templateEngine.process("/WEB-INF/PostCreation.html", ctx, response.getWriter());
+        templateEngine.process("/WEB-INF/PostProductCreation.html", ctx, response.getWriter());
     }
 }

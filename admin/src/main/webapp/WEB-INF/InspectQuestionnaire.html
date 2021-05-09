@@ -20,7 +20,7 @@
                 <option value="">Select a questionnaire</option>
                 <option th:each="q : ${questionnaires}"
                         th:value="${q.getId()}"
-                        th:text="${#strings.concat(q.getProduct().getName(),' (',#dates.format(q.getProduct().getDate(),'yyyy-MM-dd'),')')}">val</option>
+                        th:text="${#strings.concat(q.getProduct().getName(),' (',#dates.format(q.getDate(),'yyyy-MM-dd'),')')}">val</option>
             </select>
         </div>
 
@@ -29,7 +29,7 @@
 
     <div th:if="${not (questionnaire == null)}">
         <h3 th:text="${questionnaire.getProduct().getName()}">product name</h3>
-        <div th:text="${'Publish date: ' + #dates.format(questionnaire.getProduct().getDate(), 'yyyy-MM-dd')}">publish date</div>
+        <div th:text="${'Publish date: ' + #dates.format(questionnaire.getDate(), 'yyyy-MM-dd')}">publish date</div>
 
         <h4>Users that submitted the questionnaire</h4>
         <ul>

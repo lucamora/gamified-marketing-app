@@ -10,9 +10,11 @@ import java.util.stream.Collectors;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Questionnaire.getOfTheDay",
-                query = "SELECT q FROM Questionnaire q WHERE q.product.date = CURRENT_DATE"),
+                query = "SELECT q FROM Questionnaire q WHERE q.date = CURRENT_DATE"),
+        @NamedQuery(name = "Questionnaire.getByDate",
+                query = "SELECT q FROM Questionnaire q WHERE q.date = :date"),
         @NamedQuery(name = "Questionnaire.getPast",
-                query = "SELECT q FROM Questionnaire q WHERE q.product.date < CURRENT_DATE"),
+                query = "SELECT q FROM Questionnaire q WHERE q.date < CURRENT_DATE"),
         @NamedQuery(name = "Questionnaire.getLeaderboard",
                 query = "SELECT DISTINCT a.user FROM Answer a WHERE a.user.blocked = false AND a.questionnaire = :quest ORDER BY a.user.points DESC"),
         @NamedQuery(name = "Questionnaire.getUsersSubmitted",
@@ -25,8 +27,11 @@ public class Questionnaire {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
     @JoinColumn(name = "product_id", nullable = false)
-    @OneToOne(cascade = {CascadeType.REFRESH}, optional = false)
+    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
     private Product product;
 
     @JoinTable(name = "questionnaires_questions",
@@ -50,6 +55,14 @@ public class Questionnaire {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Product getProduct() {

@@ -1,10 +1,7 @@
 package it.polimi.gma.services;
 
 import it.polimi.gma.entities.*;
-import it.polimi.gma.exceptions.EmptyAnswerException;
-import it.polimi.gma.exceptions.InexistentQuestionnaire;
-import it.polimi.gma.exceptions.InvalidDateException;
-import it.polimi.gma.exceptions.OffensiveWordException;
+import it.polimi.gma.exceptions.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -13,6 +10,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,9 +59,26 @@ public class QuestionnaireService {
      * @param product product related to the questionnaire
      * @param questions marketing questions of the questionnaire
      */
-    public void createQuestionnaire(Product product, List<String> questions) {
+    public Questionnaire createQuestionnaire(Product product, Date date, List<String> questions) throws InvalidDateException, AlreadyCreatedException {
+        // check if the date is valid (current date or a posterior date)
+        LocalDate publish = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (publish.isBefore(LocalDate.now())) {
+            throw new InvalidDateException("Date should be today or a future date");
+        }
+
+        List<Questionnaire> questionnaires =
+                em.createNamedQuery("Questionnaire.getByDate", Questionnaire.class)
+                        .setParameter("date", date)
+                        .getResultList();
+
+        // check if a questionnaire for the requested date already exist
+        if (!questionnaires.isEmpty()) {
+            throw new AlreadyCreatedException("Questionnaire for the day already created");
+        }
+
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setProduct(product);
+        questionnaire.setDate(date);
 
         for (String text : questions) {
             Question question = new Question();
@@ -74,13 +89,15 @@ public class QuestionnaireService {
         }
 
         em.persist(questionnaire);
+
+        return questionnaire;
     }
 
     /**
      * Return the questionnaires proposed in the past
      * @return past questionnaires
      */
-    public List<Questionnaire> getPastQuestionnaire() {
+    public List<Questionnaire> getPastQuestionnaires() {
         return em.createNamedQuery("Questionnaire.getPast", Questionnaire.class)
                 .getResultList();
     }
@@ -97,7 +114,7 @@ public class QuestionnaireService {
         }
 
         // check if the date is valid (date preceding the current date)
-        LocalDate date = questionnaire.getProduct().getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate date = questionnaire.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         if (!date.isBefore(LocalDate.now())) {
             throw new InvalidDateException("Date should be a past date");
         }

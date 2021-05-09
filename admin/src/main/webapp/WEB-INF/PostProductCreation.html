@@ -14,12 +14,6 @@
     <h2>Product created successfully</h2>
 
     <h3 th:text="${product.getName()}"></h3>
-    <div th:text="${'Publish date: ' + #dates.format(product.getDate(), 'yyyy-MM-dd')}"></div>
     <img th:src="*{'data:image/png;base64,'+ product.getImage()}" width="200px" alt="Product image not available"/>
-
-    <h4>Marketing questions:</h4>
-    <ol>
-        <li th:each="q : ${questions}" th:text="${q}"></li>
-    </ol>
 </body>
 </html>
