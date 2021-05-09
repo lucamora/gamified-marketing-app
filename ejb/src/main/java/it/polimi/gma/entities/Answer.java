@@ -49,6 +49,7 @@ public class Answer {
 
     public void setQuestionnaire(Questionnaire questionnaire) {
         this.questionnaire = questionnaire;
+        questionnaire.addAnswer(this);
     }
 
     public Question getQuestion() {

@@ -73,11 +73,6 @@ public class QuestionnaireService {
             questionnaire.addQuestion(question);
         }
 
-        // add statically statistical questions
-        //questionnaire.addQuestion(em.find(Question.class, 1));
-        //questionnaire.addQuestion(em.find(Question.class, 2));
-        //questionnaire.addQuestion(em.find(Question.class, 3));
-
         em.persist(questionnaire);
     }
 
@@ -155,15 +150,17 @@ public class QuestionnaireService {
                 throw new EmptyAnswerException("Mandatory question is empty");
             }
 
-            // create new answer
-            Answer answer = new Answer();
-            answer.setQuestion(question);
-            answer.setAnswer(text);
-            answer.setQuestionnaire(questionnaire);
-            answer.setUser(user);
-            questionnaire.addAnswer(answer);
+            // store only filled in answers
+            if (!text.isEmpty()) {
+                // create new answer
+                Answer answer = new Answer();
+                answer.setQuestion(question);
+                answer.setAnswer(text);
+                answer.setQuestionnaire(questionnaire);
+                answer.setUser(user);
 
-            em.persist(answer);
+                em.persist(answer);
+            }
         }
     }
 
