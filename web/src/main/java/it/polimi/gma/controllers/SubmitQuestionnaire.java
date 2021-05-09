@@ -90,7 +90,7 @@ public class SubmitQuestionnaire extends HttpServlet {
     }
 
     private boolean checkIfCanSubmit(HttpServletResponse response, User user) throws IOException {
-        boolean canSubmit = questionnaireService.checkIfCanSubmit(user);
+        boolean canSubmit = questionnaireService.checkNotSubmitted(user);
         if (user.isBlocked() || !canSubmit) {
             response.sendRedirect(getServletContext().getContextPath() + "/Home");
             return false;

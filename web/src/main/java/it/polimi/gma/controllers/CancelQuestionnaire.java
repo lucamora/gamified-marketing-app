@@ -24,10 +24,18 @@ public class CancelQuestionnaire extends HttpServlet {
             return;
         }
 
-        // get current user from session
-        User user = (User)session.getAttribute("user");
+        // check if there is a questionnaire to cancel
+        if (session.getAttribute("answers") != null) {
+            // clear session attributes after cancellation
+            session.removeAttribute("answers");
+            session.removeAttribute("age");
+            session.removeAttribute("sex");
+            session.removeAttribute("expertise");
 
-        if (!user.isBlocked() && questionnaireService.checkIfCanSubmit(user)) {
+            // get current user from session
+            User user = (User)session.getAttribute("user");
+
+            // cancel questionnaire
             questionnaireService.cancel(user);
         }
 

@@ -40,12 +40,6 @@ public class GetQuestionnaire extends HttpServlet {
             return;
         }
 
-        // clear session attributes before starting the questionnaire
-        session.removeAttribute("answers");
-        session.removeAttribute("age");
-        session.removeAttribute("sex");
-        session.removeAttribute("expertise");
-
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
@@ -108,7 +102,7 @@ public class GetQuestionnaire extends HttpServlet {
     }
 
     private boolean checkIfCanSubmit(HttpServletResponse response, User user) throws IOException {
-        boolean canSubmit = questionnaireService.checkIfCanSubmit(user);
+        boolean canSubmit = questionnaireService.checkNotSubmitted(user);
         if (user.isBlocked() || !canSubmit) {
             response.sendRedirect(getServletContext().getContextPath() + "/Home");
             return false;

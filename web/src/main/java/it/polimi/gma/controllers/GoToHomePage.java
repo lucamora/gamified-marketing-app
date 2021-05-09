@@ -39,7 +39,7 @@ public class GoToHomePage extends HttpServlet {
         }
 
         User user = (User)session.getAttribute("user");
-        boolean canSubmit = questionnaireService.checkIfCanSubmit(user);
+        boolean canSubmit = questionnaireService.checkNotSubmitted(user);
 
         Product product = productService.getProductOfTheDay();
 

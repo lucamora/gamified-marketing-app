@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 @Table(name = "cancellations")
 @Entity
-@NamedQuery(name = "Cancellation.getByUserAndQuestionnaire",
-        query = "SELECT c FROM Cancellation c WHERE c.user = :usr AND c.questionnaire = :quest")
+@NamedQuery(name = "Cancellation.deleteByUserAndQuestionnaire",
+        query = "DELETE FROM Cancellation c WHERE c.user = :usr AND c.questionnaire = :quest")
 public class Cancellation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

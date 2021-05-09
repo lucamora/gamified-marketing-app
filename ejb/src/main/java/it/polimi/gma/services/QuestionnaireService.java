@@ -128,7 +128,7 @@ public class QuestionnaireService {
      * @param user user to be checked
      * @return true if the user has not already submitted the questionnaire
      */
-    public boolean checkIfCanSubmit(User user) {
+    public boolean checkNotSubmitted(User user) {
         Questionnaire questionnaire = getQuestionnaireOfTheDay();
 
         List<Answer> answers = em.createNamedQuery("Answer.getByUserAndQuestionnaire", Answer.class)
@@ -186,6 +186,11 @@ public class QuestionnaireService {
      * @param user user that cancelled the questionnaire
      */
     public void cancel(User user) {
+        // user can cancel if is not blocked and if has not already submitted
+        if (user.isBlocked() || !checkNotSubmitted(user)) {
+            return;
+        }
+
         Questionnaire questionnaire = getQuestionnaireOfTheDay();
 
         Cancellation cancellation = new Cancellation();
@@ -264,14 +269,9 @@ public class QuestionnaireService {
      * @param user user that performed the cancellation
      */
     private void deleteCancellations(Questionnaire questionnaire, User user) {
-        List<Cancellation> cancellations =
-                em.createNamedQuery("Cancellation.getByUserAndQuestionnaire", Cancellation.class)
-                        .setParameter("usr", user)
-                        .setParameter("quest", questionnaire)
-                        .getResultList();
-
-        for (Cancellation cancellation : cancellations) {
-            em.remove(cancellation);
-        }
+        em.createNamedQuery("Cancellation.deleteByUserAndQuestionnaire", Cancellation.class)
+                .setParameter("usr", user)
+                .setParameter("quest", questionnaire)
+                .executeUpdate();
     }
 }
