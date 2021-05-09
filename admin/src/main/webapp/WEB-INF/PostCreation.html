@@ -15,7 +15,7 @@
 
     <h3 th:text="${product.getName()}"></h3>
     <div th:text="${'Publish date: ' + #dates.format(product.getDate(), 'yyyy-MM-dd')}"></div>
-    <img th:src="*{'data:image/png;base64,'+ product.getImage()}" width="200px"/>
+    <img th:src="*{'data:image/png;base64,'+ product.getImage()}" width="200px" alt="Product image not available"/>
 
     <h4>Marketing questions:</h4>
     <ol>
