@@ -1,6 +1,5 @@
 package it.polimi.gma.controllers;
 
-import it.polimi.gma.entities.User;
 import it.polimi.gma.exceptions.AlreadyRegisteredException;
 import it.polimi.gma.exceptions.CredentialsException;
 import it.polimi.gma.services.UserService;

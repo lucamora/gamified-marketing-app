@@ -33,19 +33,10 @@ public class SubmitQuestionnaire extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if user is logged in
         HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("user") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
 
         // get current user from session
         User user = (User)session.getAttribute("user");
-
-        if (!checkIfCanSubmit(response, user)) {
-            return;
-        }
 
         // get marketing questions from session
         @SuppressWarnings("unchecked")
@@ -87,14 +78,5 @@ public class SubmitQuestionnaire extends HttpServlet {
         ctx.setVariable("status", status);
 
         templateEngine.process("/WEB-INF/PostSubmission.html", ctx, response.getWriter());
-    }
-
-    private boolean checkIfCanSubmit(HttpServletResponse response, User user) throws IOException {
-        boolean canSubmit = questionnaireService.checkNotSubmitted(user);
-        if (user.isBlocked() || !canSubmit) {
-            response.sendRedirect(getServletContext().getContextPath() + "/Home");
-            return false;
-        }
-        return true;
     }
 }

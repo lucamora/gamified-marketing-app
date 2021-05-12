@@ -31,12 +31,7 @@ public class GoToHomePage extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if user is logged in
         HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("user") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
 
         User user = (User)session.getAttribute("user");
         boolean canSubmit = questionnaireService.checkNotSubmitted(user);

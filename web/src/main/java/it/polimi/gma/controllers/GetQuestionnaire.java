@@ -29,17 +29,6 @@ public class GetQuestionnaire extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if user is logged in
-        HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("user") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
-
-        if (!checkIfCanSubmit(response, (User)session.getAttribute("user"))) {
-            return;
-        }
-
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
@@ -51,16 +40,7 @@ public class GetQuestionnaire extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if user is logged in
         HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("user") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
-
-        if (!checkIfCanSubmit(response, (User)session.getAttribute("user"))) {
-            return;
-        }
 
         String next = request.getParameter("next");
         String previous = request.getParameter("previous");
@@ -99,14 +79,5 @@ public class GetQuestionnaire extends HttpServlet {
         }
 
         templateEngine.process("/WEB-INF/Questionnaire" + filename + ".html", ctx, response.getWriter());
-    }
-
-    private boolean checkIfCanSubmit(HttpServletResponse response, User user) throws IOException {
-        boolean canSubmit = questionnaireService.checkNotSubmitted(user);
-        if (user.isBlocked() || !canSubmit) {
-            response.sendRedirect(getServletContext().getContextPath() + "/Home");
-            return false;
-        }
-        return true;
     }
 }

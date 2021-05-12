@@ -131,6 +131,12 @@ public class QuestionnaireService {
     public boolean checkNotSubmitted(User user) {
         Questionnaire questionnaire = getQuestionnaireOfTheDay();
 
+        // if there is no questionnaire of the day
+        // obviously the user can not submit/cancel it
+        if (questionnaire == null) {
+            return false;
+        }
+
         List<Answer> answers = em.createNamedQuery("Answer.getByUserAndQuestionnaire", Answer.class)
                 .setParameter("usr", user)
                 .setParameter("quest", questionnaire)
@@ -186,11 +192,6 @@ public class QuestionnaireService {
      * @param user user that cancelled the questionnaire
      */
     public void cancel(User user) {
-        // user can cancel if is not blocked and if has not already submitted
-        if (user.isBlocked() || !checkNotSubmitted(user)) {
-            return;
-        }
-
         Questionnaire questionnaire = getQuestionnaireOfTheDay();
 
         Cancellation cancellation = new Cancellation();

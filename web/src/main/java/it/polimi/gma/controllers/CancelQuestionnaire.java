@@ -17,12 +17,7 @@ public class CancelQuestionnaire extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if user is logged in
         HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("user") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
 
         // check if there is a questionnaire to cancel
         if (session.getAttribute("answers") != null) {
