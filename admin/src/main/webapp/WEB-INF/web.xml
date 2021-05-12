@@ -3,4 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <filter>
+        <filter-name>AdminAuthentication</filter-name>
+        <filter-class>it.polimi.gma.filters.AdminAuthentication</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminAuthentication</filter-name>
+        <url-pattern>/CreateProduct</url-pattern>
+        <url-pattern>/CreateQuestionnaire</url-pattern>
+        <url-pattern>/DeleteQuestionnaire</url-pattern>
+        <url-pattern>/Home</url-pattern>
+        <url-pattern>/InspectQuestionnaire</url-pattern>
+        <url-pattern>/Logout</url-pattern>
+    </filter-mapping>
 </web-app>

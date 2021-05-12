@@ -39,13 +39,6 @@ public class CreateQuestionnaire extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if admin is logged in
-        HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("admin") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
-
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
@@ -57,13 +50,6 @@ public class CreateQuestionnaire extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if admin is logged in
-        HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("admin") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
-
         String dateStr = request.getParameter("date");
         if (dateStr == null || dateStr.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");

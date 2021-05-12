@@ -30,13 +30,6 @@ public class CreateProduct extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if admin is logged in
-        HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("admin") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
-
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
@@ -47,13 +40,6 @@ public class CreateProduct extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if admin is logged in
-        HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("admin") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
-
         String name = request.getParameter("name");
 
         if (name == null || name.isEmpty()) {

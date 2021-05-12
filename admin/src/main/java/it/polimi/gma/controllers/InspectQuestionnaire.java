@@ -28,13 +28,6 @@ public class InspectQuestionnaire extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // check if admin is logged in
-        HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("admin") == null) {
-            response.sendRedirect(getServletContext().getContextPath() + "/index.html");
-            return;
-        }
-
         int questionnaireId;
         try {
             questionnaireId = Integer.parseInt(request.getParameter("questionnaire"));
