@@ -28,17 +28,16 @@ public class CheckLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // obtain params
-        String usr = null;
-        String pwd = null;
-        try {
-            usr = request.getParameter("username");
-            pwd = request.getParameter("password");
-            if (usr == null || pwd == null || usr.isEmpty() || pwd.isEmpty()) {
-                throw new Exception("Missing or empty credential value");
-            }
+        String usr = request.getParameter("username");
+        String pwd = request.getParameter("password");
+        if (usr == null || pwd == null) {
+            invalidCredentials(request, response);
+            return;
+        }
 
-        } catch (Exception e) {
-            //response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+        usr = usr.trim();
+        pwd = pwd.trim();
+        if (usr.isEmpty() || pwd.isEmpty()) {
             invalidCredentials(request, response);
             return;
         }

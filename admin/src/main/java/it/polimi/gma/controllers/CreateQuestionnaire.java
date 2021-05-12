@@ -51,7 +51,13 @@ public class CreateQuestionnaire extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String dateStr = request.getParameter("date");
-        if (dateStr == null || dateStr.isEmpty()) {
+        if (dateStr == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
+            return;
+        }
+
+        dateStr = dateStr.trim();
+        if (dateStr.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
             return;
         }
@@ -70,8 +76,8 @@ public class CreateQuestionnaire extends HttpServlet {
         while (inputs.hasMoreElements()) {
             String param = inputs.nextElement();
             if (param.startsWith("question_")) {
-                String quest = request.getParameter(param);
-                if (quest != null && !quest.trim().isEmpty()) {
+                String quest = request.getParameter(param).trim();
+                if (!quest.isEmpty()) {
                     questions.add(quest);
                 }
             }
@@ -93,6 +99,11 @@ public class CreateQuestionnaire extends HttpServlet {
 
         // get product
         Product product = productService.getProductById(productId);
+
+        if (product == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product");
+            return;
+        }
 
         Questionnaire questionnaire;
         try {

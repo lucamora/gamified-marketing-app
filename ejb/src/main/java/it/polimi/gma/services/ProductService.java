@@ -48,7 +48,7 @@ public class ProductService {
         }
 
         Product product = new Product();
-        product.setName(name.trim());
+        product.setName(name);
         product.setImage(image);
 
         em.persist(product);

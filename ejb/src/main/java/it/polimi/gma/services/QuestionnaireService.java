@@ -82,7 +82,7 @@ public class QuestionnaireService {
 
         for (String text : questions) {
             Question question = new Question();
-            question.setQuestion(text.trim());
+            question.setQuestion(text);
             question.setSection(Section.MARKETING);
 
             questionnaire.addQuestion(question);
@@ -159,7 +159,7 @@ public class QuestionnaireService {
         deleteCancellations(questionnaire, user);
 
         for (int id : answers.keySet()) {
-            String text = answers.get(id).trim();
+            String text = answers.get(id);
 
             // check if answer contains an offensive word
             if (containsOffensiveWord(text)) {

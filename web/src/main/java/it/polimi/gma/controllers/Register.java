@@ -28,20 +28,19 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // get fields
-        String email = null;
-        String usr = null;
-        String pwd = null;
-        try {
-            email = request.getParameter("email");
-            usr = request.getParameter("username");
-            pwd = request.getParameter("password");
-            if (email == null || usr == null || pwd == null ||
-                    email.isEmpty() || usr.isEmpty() || pwd.isEmpty()) {
-                throw new Exception("Missing or empty credential value");
-            }
+        String email = request.getParameter("email");
+        String usr = request.getParameter("username");
+        String pwd = request.getParameter("password");
+        if (email == null || usr == null || pwd == null) {
+            invalidCredentials("Missing or empty credential value", request, response);
+            return;
         }
-        catch (Exception e) {
-            invalidCredentials(e.getMessage(), request, response);
+
+        email = email.trim();
+        usr = usr.trim();
+        pwd = pwd.trim();
+        if (email.isEmpty() || usr.isEmpty() || pwd.isEmpty()) {
+            invalidCredentials("Missing or empty credential value", request, response);
             return;
         }
 

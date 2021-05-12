@@ -21,8 +21,8 @@ public class AdministratorService {
         List<Administrator> admins = null;
         try {
             admins = em.createNamedQuery("Administrator.checkCredentials", Administrator.class)
-                    .setParameter("usr", username.trim())
-                    .setParameter("pwd", password.trim())
+                    .setParameter("usr", username)
+                    .setParameter("pwd", password)
                     .getResultList();
         }
         catch (PersistenceException e) {

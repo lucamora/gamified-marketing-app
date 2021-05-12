@@ -2,7 +2,6 @@ package it.polimi.gma.controllers;
 
 import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.Section;
-import it.polimi.gma.entities.User;
 import it.polimi.gma.services.QuestionnaireService;
 import it.polimi.gma.utils.ThymeleafFactory;
 import org.thymeleaf.TemplateEngine;
@@ -58,7 +57,7 @@ public class GetQuestionnaire extends HttpServlet {
             while (inputs.hasMoreElements()) {
                 String param = inputs.nextElement();
                 if (!param.contains("next")) {
-                    answers.put(Integer.parseInt(param), request.getParameter(param));
+                    answers.put(Integer.parseInt(param), request.getParameter(param).trim());
                 }
             }
             session.setAttribute("answers", answers);

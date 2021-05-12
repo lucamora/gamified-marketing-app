@@ -1,7 +1,6 @@
 package it.polimi.gma.services;
 
 import it.polimi.gma.entities.Login;
-import it.polimi.gma.entities.Questionnaire;
 import it.polimi.gma.entities.User;
 import it.polimi.gma.exceptions.AlreadyRegisteredException;
 import it.polimi.gma.exceptions.CredentialsException;
@@ -25,8 +24,8 @@ public class UserService {
         List<User> users = null;
         try {
             users = em.createNamedQuery("User.checkCredentials", User.class)
-                    .setParameter("usr", username.trim())
-                    .setParameter("pwd", password.trim())
+                    .setParameter("usr", username)
+                    .setParameter("pwd", password)
                     .getResultList();
         }
         catch (PersistenceException e) {
@@ -44,7 +43,7 @@ public class UserService {
         List<User> user = null;
         try {
             user = em.createNamedQuery("User.getByUsername", User.class)
-                    .setParameter("usr", username.trim())
+                    .setParameter("usr", username)
                     .getResultList();
         }
         catch (PersistenceException e) {
@@ -56,9 +55,9 @@ public class UserService {
         }
 
         User newUser = new User();
-        newUser.setEmail(email.trim());
-        newUser.setUsername(username.trim());
-        newUser.setPassword(password.trim());
+        newUser.setEmail(email);
+        newUser.setUsername(username);
+        newUser.setPassword(password);
 
         em.persist(newUser);
         return newUser;
