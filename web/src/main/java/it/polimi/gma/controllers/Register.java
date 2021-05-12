@@ -31,7 +31,8 @@ public class Register extends HttpServlet {
         String email = request.getParameter("email");
         String usr = request.getParameter("username");
         String pwd = request.getParameter("password");
-        if (email == null || usr == null || pwd == null) {
+        String confpwd = request.getParameter("confirmPassword");
+        if (email == null || usr == null || pwd == null || confpwd == null) {
             invalidCredentials("Missing or empty credential value", request, response);
             return;
         }
@@ -39,9 +40,14 @@ public class Register extends HttpServlet {
         email = email.trim();
         usr = usr.trim();
         pwd = pwd.trim();
-        if (email.isEmpty() || usr.isEmpty() || pwd.isEmpty()) {
+        confpwd = confpwd.trim();
+        if (email.isEmpty() || usr.isEmpty() || pwd.isEmpty() || confpwd.isEmpty()) {
             invalidCredentials("Missing or empty credential value", request, response);
             return;
+        }
+
+        if (!pwd.equals(confpwd)) {
+            invalidCredentials("Passwords do not match", request, response);
         }
 
         try {
