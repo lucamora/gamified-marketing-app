@@ -5,6 +5,8 @@ import java.util.List;
 
 @Table(name = "questions")
 @Entity
+@NamedQuery(name = "Question.getStatistical",
+        query = "SELECT q FROM Question q WHERE q.section = it.polimi.gma.entities.Section.STATISTICAL")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +16,9 @@ public class Question {
 
     @Enumerated(EnumType.STRING)
     private Section section;
+
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<Choice> choices;
 
 
 
@@ -39,5 +44,13 @@ public class Question {
 
     public void setSection(Section section) {
         this.section = section;
+    }
+
+    public List<Choice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
     }
 }

@@ -234,6 +234,15 @@ public class QuestionnaireService {
     }
 
     /**
+     * Return the list of statistical questions
+     * @return statistical questions
+     */
+    public List<Question> getStatisticalQuestions() {
+        return em.createNamedQuery("Question.getStatistical", Question.class)
+                .getResultList();
+    }
+
+    /**
      * Check if an answer contains an offensive word
      * @param answer answer to be checked
      * @return true if answer contains an offensive word

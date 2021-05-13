@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Table(name = "questionnaires")
 @Entity
@@ -82,12 +81,6 @@ public class Questionnaire {
             questions = new ArrayList<>();
         }
         this.questions.add(question);
-    }
-
-    public List<Question> filterQuestions(Section section) {
-        return questions.stream()
-                .filter(q -> q.getSection().equals(section))
-                .collect(Collectors.toList());
     }
 
     public void addAnswer(Answer answer) {

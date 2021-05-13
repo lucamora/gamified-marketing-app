@@ -1,7 +1,6 @@
 package it.polimi.gma.controllers;
 
 import it.polimi.gma.entities.Questionnaire;
-import it.polimi.gma.entities.Section;
 import it.polimi.gma.services.QuestionnaireService;
 import it.polimi.gma.utils.ThymeleafFactory;
 import org.thymeleaf.TemplateEngine;
@@ -32,7 +31,7 @@ public class GetQuestionnaire extends HttpServlet {
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
         Questionnaire questionnaire = questionnaireService.getQuestionnaireOfTheDay();
-        ctx.setVariable("questions", questionnaire.filterQuestions(Section.MARKETING));
+        ctx.setVariable("questions", questionnaire.getQuestions());
 
         templateEngine.process("/WEB-INF/QuestionnaireMarketing.html", ctx, response.getWriter());
     }
@@ -49,30 +48,32 @@ public class GetQuestionnaire extends HttpServlet {
 
         String filename = null;
 
+        // get answers
+        Enumeration<String> inputs = request.getParameterNames();
+        Map<Integer, String> answers = new HashMap<>();
+        while (inputs.hasMoreElements()) {
+            String param = inputs.nextElement();
+            if (!param.contains("next") && !param.contains("previous")) {
+                answers.put(Integer.parseInt(param), request.getParameter(param).trim());
+            }
+        }
+
         // if 'next' has been clicked
         // now we are in the marketing section and must serve the statistical section
         if (next != null) {
-            Enumeration<String> inputs = request.getParameterNames();
-            Map<Integer, String> answers = new HashMap<>();
-            while (inputs.hasMoreElements()) {
-                String param = inputs.nextElement();
-                if (!param.contains("next")) {
-                    answers.put(Integer.parseInt(param), request.getParameter(param).trim());
-                }
-            }
-            session.setAttribute("answers", answers);
+            session.setAttribute("marketing", answers);
+
+            ctx.setVariable("questions", questionnaireService.getStatisticalQuestions());
 
             filename = "Statistical";
         }
         // if 'previous' has been clicked
         // now we are in the statistical section and must serve the marketing section
         else if (previous != null) {
-            session.setAttribute("age", request.getParameter("age"));
-            session.setAttribute("sex", request.getParameter("sex"));
-            session.setAttribute("expertise", request.getParameter("expertise"));
+            session.setAttribute("statistical", answers);
 
             Questionnaire questionnaire = questionnaireService.getQuestionnaireOfTheDay();
-            ctx.setVariable("questions", questionnaire.filterQuestions(Section.MARKETING));
+            ctx.setVariable("questions", questionnaire.getQuestions());
 
             filename = "Marketing";
         }

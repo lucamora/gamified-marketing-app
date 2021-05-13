@@ -10,33 +10,19 @@
 
     <h3>Statistical questions</h3>
     <form>
-        <div>
-            <label for="age">Select your age:</label>
-            <select name="age" id="age">
+        <div th:each="q : ${questions}">
+            <label th:text="${q.getQuestion()}"
+                   th:for="${q.getId()}">Question</label>
+            <select th:name="${q.getId()}"
+                    th:id="${q.getId()}"
+                    th:required="${q.getSection().isMandatory()}">
                 <option value="">Choose an option</option>
-                <option th:each="n : ${#numbers.sequence(0, 90, 10)}"
-                        th:value="${#strings.concat(n,'-',n+9)}"
-                        th:text="${#strings.concat(n,'-',n+9)}"
-                        th:selected="${#strings.equals(session.age, #strings.concat(n,'-',n+9))}">val</option>
+                <option th:each="c : ${q.getChoices()}"
+                        th:value="${c.getAnswer()}"
+                        th:text="${c.getAnswer()}"
+                        th:selected="${session.statistical} ? ${#strings.equals(session.statistical[q.getId()], c.getAnswer())}">option</option>
             </select>
-        </div>
-        <div>
-            <label for="sex">Select your sex:</label>
-            <select name="sex" id="sex">
-                <option value="">Choose an option</option>
-                <option value="m" th:selected="${#strings.equals(session.sex, 'm')}">M</option>
-                <option value="f" th:selected="${#strings.equals(session.sex, 'f')}">F</option>
-                <option value="other" th:selected="${#strings.equals(session.sex, 'other')}">Other</option>
-            </select>
-        </div>
-        <div>
-            <label for="expertise">Select your expertise level:</label>
-            <select name="expertise" id="expertise">
-                <option value="">Choose an option</option>
-                <option value="low" th:selected="${#strings.equals(session.expertise, 'low')}">Low</option>
-                <option value="medium" th:selected="${#strings.equals(session.expertise, 'medium')}">Medium</option>
-                <option value="high" th:selected="${#strings.equals(session.expertise, 'high')}">High</option>
-            </select>
+            <br><br>
         </div>
 
         <input type="submit" name="previous" value="previous" formaction="GetQuestionnaire" formmethod="POST">

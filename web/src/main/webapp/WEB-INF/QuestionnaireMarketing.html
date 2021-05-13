@@ -16,7 +16,7 @@
             <input type="text"
                    th:name="${q.getId()}"
                    th:id="${q.getId()}"
-                   th:value="${session.answers} ? ${session.answers[q.getId()]}"
+                   th:value="${session.marketing} ? ${session.marketing[q.getId()]}"
                    th:required="${q.getSection().isMandatory()}">
             <br><br>
         </div>

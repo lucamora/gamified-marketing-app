@@ -20,12 +20,10 @@ public class CancelQuestionnaire extends HttpServlet {
         HttpSession session = request.getSession();
 
         // check if there is a questionnaire to cancel
-        if (session.getAttribute("answers") != null) {
+        if (session.getAttribute("marketing") != null) {
             // clear session attributes after cancellation
-            session.removeAttribute("answers");
-            session.removeAttribute("age");
-            session.removeAttribute("sex");
-            session.removeAttribute("expertise");
+            session.removeAttribute("marketing");
+            session.removeAttribute("statistical");
 
             // get current user from session
             User user = (User)session.getAttribute("user");

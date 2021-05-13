@@ -14,6 +14,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Map;
 
 @WebServlet(name = "SubmitQuestionnaire", value = "/SubmitQuestionnaire")
@@ -40,12 +41,16 @@ public class SubmitQuestionnaire extends HttpServlet {
 
         // get marketing questions from session
         @SuppressWarnings("unchecked")
-        Map<Integer, String> answers = (Map<Integer, String>)session.getAttribute("answers");
+        Map<Integer, String> answers = (Map<Integer, String>)session.getAttribute("marketing");
 
         // get statistical questions from form parameters
-        answers.put(1, request.getParameter("age"));
-        answers.put(2, request.getParameter("sex"));
-        answers.put(3, request.getParameter("expertise"));
+        Enumeration<String> inputs = request.getParameterNames();
+        while (inputs.hasMoreElements()) {
+            String param = inputs.nextElement();
+            if (!param.contains("submit")) {
+                answers.put(Integer.parseInt(param), request.getParameter(param).trim());
+            }
+        }
 
         String status = "";
         try {
@@ -67,10 +72,8 @@ public class SubmitQuestionnaire extends HttpServlet {
         }
 
         // clear session attributes after submission
-        session.removeAttribute("answers");
-        session.removeAttribute("age");
-        session.removeAttribute("sex");
-        session.removeAttribute("expertise");
+        session.removeAttribute("marketing");
+        session.removeAttribute("statistical");
 
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
