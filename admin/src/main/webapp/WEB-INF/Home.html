@@ -19,5 +19,24 @@
     <a th:href="@{/InspectQuestionnaire}">Inspect questionnaire</a>
     <br><br>
     <a th:href="@{/DeleteQuestionnaire}">Delete questionnaire</a>
+    <br><br>
+    <hr>
+
+    <h3 th:if="${questionnaire == null}">No questionnaire of the day</h3>
+    <div th:if="${not (questionnaire == null)}">
+        <h3>Questionnaire of the day</h3>
+
+        <h4 th:text="${'Product: ' + questionnaire.getProduct().getName()}">Product</h4>
+
+        <h4>Marketing questions</h4>
+        <ul>
+            <li th:each="q : ${questionnaire.getQuestions()}" th:text="${q.getQuestion()}"></li>
+        </ul>
+
+        <h4>Statistical questions</h4>
+        <ul>
+            <li th:each="q : ${statistical}" th:text="${q.getQuestion()}"></li>
+        </ul>
+    </div>
 </body>
 </html>
