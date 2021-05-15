@@ -13,7 +13,8 @@
     <h1>Gamified Marketing Application</h1>
     <h2>Leaderboard</h2>
 
-    <table>
+    <div th:if="${#lists.isEmpty(users)}">No users have submitted the questionnaire</div>
+    <table th:if="${not #lists.isEmpty(users)}">
         <thead>
             <th>Position</th>
             <th>Username</th>
