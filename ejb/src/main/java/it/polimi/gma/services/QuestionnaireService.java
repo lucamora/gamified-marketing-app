@@ -204,6 +204,7 @@ public class QuestionnaireService {
         Cancellation cancellation = new Cancellation();
         cancellation.setQuestionnaire(questionnaire);
         cancellation.setUser(user);
+        cancellation.setDate(new Date());
 
         em.persist(cancellation);
     }
@@ -224,18 +225,7 @@ public class QuestionnaireService {
      * @return users that submitted the questionnaire
      */
     public List<User> getUsersSubmitted(Questionnaire questionnaire) {
-        return em.createNamedQuery("Questionnaire.getUsersSubmitted", User.class)
-                .setParameter("quest", questionnaire)
-                .getResultList();
-    }
-
-    /**
-     * Return the users that cancelled the specified questionnaire
-     * @param questionnaire questionnaire of interest
-     * @return users that cancelled the questionnaire
-     */
-    public List<User> getUsersCancelled(Questionnaire questionnaire) {
-        return em.createNamedQuery("Questionnaire.getUsersCancelled", User.class)
+        return em.createNamedQuery("Questionnaire.getLeaderboard", User.class)
                 .setParameter("quest", questionnaire)
                 .getResultList();
     }

@@ -1,6 +1,7 @@
 package it.polimi.gma.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "cancellations")
 @Entity
@@ -18,6 +19,9 @@ public class Cancellation {
     @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
     private User user;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
 
 
@@ -44,5 +48,13 @@ public class Cancellation {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

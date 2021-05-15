@@ -15,11 +15,7 @@ import java.util.List;
         @NamedQuery(name = "Questionnaire.getPast",
                 query = "SELECT q FROM Questionnaire q WHERE q.date < CURRENT_DATE"),
         @NamedQuery(name = "Questionnaire.getLeaderboard",
-                query = "SELECT DISTINCT a.user FROM Answer a WHERE a.user.blocked = false AND a.questionnaire = :quest ORDER BY a.user.points DESC"),
-        @NamedQuery(name = "Questionnaire.getUsersSubmitted",
-                query = "SELECT DISTINCT a.user FROM Answer a WHERE a.questionnaire = :quest"),
-        @NamedQuery(name = "Questionnaire.getUsersCancelled",
-                query = "SELECT DISTINCT c.user FROM Cancellation c WHERE c.questionnaire = :quest")
+                query = "SELECT DISTINCT a.user FROM Answer a WHERE a.user.blocked = false AND a.questionnaire = :quest ORDER BY a.user.points DESC")
 })
 public class Questionnaire {
     @Id
@@ -44,6 +40,7 @@ public class Questionnaire {
     @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Answer> answers;
 
+    @OrderBy("date")
     @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Cancellation> cancellations;
 

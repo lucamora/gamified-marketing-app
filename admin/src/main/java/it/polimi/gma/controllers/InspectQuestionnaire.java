@@ -38,11 +38,9 @@ public class InspectQuestionnaire extends HttpServlet {
 
         Questionnaire questionnaire = null;
         List<User> usersSubmitted = null;
-        List<User> usersCancelled = null;
         if (questionnaireId > -1) {
             questionnaire = questionnaireService.getQuestionnaireById(questionnaireId);
             usersSubmitted = questionnaireService.getUsersSubmitted(questionnaire);
-            usersCancelled = questionnaireService.getUsersCancelled(questionnaire);
         }
 
         ServletContext servletContext = getServletContext();
@@ -51,7 +49,6 @@ public class InspectQuestionnaire extends HttpServlet {
         ctx.setVariable("questionnaires", questionnaireService.getPastQuestionnaires());
         ctx.setVariable("questionnaire", questionnaire);
         ctx.setVariable("usersSubmitted", usersSubmitted);
-        ctx.setVariable("usersCancelled", usersCancelled);
 
         templateEngine.process("/WEB-INF/InspectQuestionnaire.html", ctx, response.getWriter());
     }

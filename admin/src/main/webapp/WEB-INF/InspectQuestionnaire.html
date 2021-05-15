@@ -33,12 +33,14 @@
 
         <h4>Users that submitted the questionnaire</h4>
         <ul>
-            <li th:each="u : ${usersSubmitted}" th:text="${u.getUsername()}"></li>
+            <li th:each="u : ${usersSubmitted}"
+                th:text="${#strings.concat(u.getUsername(),' (points: ',u.getPoints(),')')}"></li>
         </ul>
 
         <h4>Users that cancelled the questionnaire</h4>
         <ul>
-            <li th:each="u : ${usersCancelled}" th:text="${u.getUsername()}"></li>
+            <li th:each="c : ${questionnaire.getCancellations()}"
+                th:text="${#strings.concat(c.getUser().getUsername(),' (date: ',#dates.format(c.getDate(), 'yyyy-MM-dd HH:mm'),')')}"></li>
         </ul>
 
         <h4>Questionnaire answers</h4>
