@@ -57,10 +57,14 @@ public class QuestionnaireService {
     /**
      * Create a new questionnaire and associate it to a product
      * @param product product related to the questionnaire
+     * @param date date of the questionnaire
      * @param questions marketing questions of the questionnaire
+     * @return created questionnaire
+     * @throws InvalidDateException specified date is in the past
+     * @throws AlreadyCreatedException questionnaire in the same date already exists
      */
     public Questionnaire createQuestionnaire(Product product, Date date, List<String> questions) throws InvalidDateException, AlreadyCreatedException {
-        // check if the date is valid (current date or a posterior date)
+        // check if the date is valid (current date or a future date)
         LocalDate publish = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         if (publish.isBefore(LocalDate.now())) {
             throw new InvalidDateException("Date should be today or a future date");
@@ -103,8 +107,11 @@ public class QuestionnaireService {
     }
 
     /**
-     * Delete a questionnaire
+     * Delete a questionnaire with the specified id
      * @param id id of the questionnaire
+     * @return deleted questionnaire
+     * @throws InvalidDateException specified date is today or a future date
+     * @throws InexistentQuestionnaire questionnaire does not exists
      */
     public Questionnaire deleteQuestionnaire(int id) throws InvalidDateException, InexistentQuestionnaire {
         Questionnaire questionnaire = em.find(Questionnaire.class, id);
@@ -124,11 +131,11 @@ public class QuestionnaireService {
     }
 
     /**
-     * Check if a user has already submitted the questionnaire of the day
+     * Check if a user can submit the questionnaire of the day (has not already submitted)
      * @param user user to be checked
-     * @return true if the user has not already submitted the questionnaire
+     * @return true if the user can submit (has not already submitted the questionnaire)
      */
-    public boolean checkNotSubmitted(User user) {
+    public boolean checkUserCanSubmit(User user) {
         Questionnaire questionnaire = getQuestionnaireOfTheDay();
 
         // if there is no questionnaire of the day

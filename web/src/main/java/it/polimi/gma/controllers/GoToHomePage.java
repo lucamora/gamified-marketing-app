@@ -34,7 +34,7 @@ public class GoToHomePage extends HttpServlet {
         HttpSession session = request.getSession();
 
         User user = (User)session.getAttribute("user");
-        boolean canSubmit = questionnaireService.checkNotSubmitted(user);
+        boolean canSubmit = questionnaireService.checkUserCanSubmit(user);
 
         Product product = productService.getProductOfTheDay();
 

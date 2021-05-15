@@ -30,7 +30,7 @@ public class CheckCanDoQuestionnaire implements Filter {
         User user = (User)req.getSession().getAttribute("user");
 
         // user can submit/cancel if is not blocked and if has not already submitted
-        boolean canSubmit = questionnaireService.checkNotSubmitted(user);
+        boolean canSubmit = questionnaireService.checkUserCanSubmit(user);
         if (user.isBlocked() || !canSubmit) {
             res.sendRedirect(req.getServletContext().getContextPath() + "/Home");
             return;
