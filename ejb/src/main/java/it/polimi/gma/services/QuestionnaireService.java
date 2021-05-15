@@ -51,7 +51,15 @@ public class QuestionnaireService {
      * @return questionnaire
      */
     public Questionnaire getQuestionnaireById(int id) {
-        return em.find(Questionnaire.class, id);
+        Questionnaire questionnaire = em.find(Questionnaire.class, id);
+
+        if (questionnaire == null) {
+            return null;
+        }
+
+        em.refresh(questionnaire);
+
+        return questionnaire;
     }
 
     /**
@@ -103,6 +111,7 @@ public class QuestionnaireService {
      */
     public List<Questionnaire> getPastQuestionnaires() {
         return em.createNamedQuery("Questionnaire.getPast", Questionnaire.class)
+                .setHint("javax.persistence.cache.storeMode", "REFRESH")
                 .getResultList();
     }
 
@@ -216,6 +225,7 @@ public class QuestionnaireService {
     public List<User> getLeaderboard() {
         return em.createNamedQuery("Questionnaire.getLeaderboard", User.class)
                 .setParameter("quest", getQuestionnaireOfTheDay())
+                .setHint("javax.persistence.cache.storeMode", "REFRESH")
                 .getResultList();
     }
 
