@@ -12,7 +12,7 @@ public class Choice {
     private String answer;
 
     @JoinColumn(name = "question_id", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Question question;
 
 
@@ -39,5 +39,6 @@ public class Choice {
 
     public void setQuestion(Question question) {
         this.question = question;
+        question.addChoice(this);
     }
 }

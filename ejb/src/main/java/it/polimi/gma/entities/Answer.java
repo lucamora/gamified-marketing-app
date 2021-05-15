@@ -13,8 +13,8 @@ public class Answer {
 
     private String answer;
 
-    @JoinColumn(name = "questionnaire_id")
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "questionnaire_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
     private Questionnaire questionnaire;
 
     @JoinColumn(name = "question_id", nullable = false)

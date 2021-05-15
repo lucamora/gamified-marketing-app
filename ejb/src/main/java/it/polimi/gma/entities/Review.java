@@ -16,7 +16,7 @@ public class Review {
     private String comment;
 
     @JoinColumn(name = "product_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
     private Product product;
 
 

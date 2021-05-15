@@ -1,7 +1,6 @@
 package it.polimi.gma.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
@@ -11,7 +10,7 @@ import java.io.Serializable;
         @NamedQuery(name = "User.getByUsername",
                 query = "SELECT u FROM User u WHERE u.username = :usr")
 })
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

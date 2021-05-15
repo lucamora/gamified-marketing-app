@@ -17,7 +17,7 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private Section section;
 
-    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Choice> choices;
 
 
@@ -50,7 +50,7 @@ public class Question {
         return choices;
     }
 
-    public void setChoices(List<Choice> choices) {
-        this.choices = choices;
+    public void addChoice(Choice choice) {
+        this.choices.add(choice);
     }
 }
