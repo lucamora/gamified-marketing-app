@@ -14,15 +14,15 @@ public class Answer {
     private String answer;
 
     @JoinColumn(name = "questionnaire_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Questionnaire questionnaire;
 
     @JoinColumn(name = "question_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
+    @ManyToOne(optional = false)
     private Question question;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
+    @ManyToOne(optional = false)
     private User user;
 
 

@@ -10,14 +10,14 @@ public class Review {
     private int id;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
+    @ManyToOne(optional = false)
     private User user;
 
     @Column(nullable = false)
     private String comment;
 
     @JoinColumn(name = "product_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Product product;
 
 

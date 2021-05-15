@@ -13,11 +13,11 @@ public class Cancellation {
     private int id;
 
     @JoinColumn(name = "questionnaire_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Questionnaire questionnaire;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @ManyToOne(optional = false)
     private User user;
 
     @Temporal(TemporalType.TIMESTAMP)

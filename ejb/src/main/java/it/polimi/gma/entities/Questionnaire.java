@@ -27,21 +27,21 @@ public class Questionnaire {
     private Date date;
 
     @JoinColumn(name = "product_id", nullable = false)
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+    @ManyToOne(optional = false)
     private Product product;
 
     @JoinTable(name = "questionnaires_questions",
             joinColumns = @JoinColumn(name = "questionnaire_id"),
             inverseJoinColumns = @JoinColumn(name = "question_id"))
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Question> questions;
 
     @OrderBy("user, question")
-    @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<Answer> answers;
 
     @OrderBy("date")
-    @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<Cancellation> cancellations;
 
 
