@@ -12,8 +12,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     private String question;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Section section;
 

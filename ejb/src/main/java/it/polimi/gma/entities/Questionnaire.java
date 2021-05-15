@@ -26,6 +26,7 @@ public class Questionnaire {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date date;
 

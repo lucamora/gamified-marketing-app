@@ -14,6 +14,7 @@ public class Login {
     @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private User user;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 

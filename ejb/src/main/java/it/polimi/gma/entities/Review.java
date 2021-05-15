@@ -13,6 +13,7 @@ public class Review {
     @ManyToOne(cascade = {CascadeType.REFRESH}, optional = false)
     private User user;
 
+    @Column(nullable = false)
     private String comment;
 
     @JoinColumn(name = "product_id", nullable = false)
