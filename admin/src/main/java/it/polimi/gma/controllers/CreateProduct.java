@@ -42,13 +42,13 @@ public class CreateProduct extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         if (name == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product parameters");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product name");
             return;
         }
 
         name = name.trim();
         if (name.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product parameters");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product name");
             return;
         }
 

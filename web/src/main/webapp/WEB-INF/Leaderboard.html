@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Leaderboard</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-    <div style="text-align: right">
+    <div class="right">
         <a th:href="@{/Home}">Go to home</a>
         <a th:href="@{/Logout}">Logout</a>
     </div>
@@ -13,7 +16,7 @@
     <h1>Gamified Marketing Application</h1>
     <h2>Leaderboard</h2>
 
-    <div th:if="${#lists.isEmpty(users)}">No users have submitted the questionnaire</div>
+    <div th:if="${#lists.isEmpty(users)}" class="italic">No users have submitted the questionnaire</div>
     <table th:if="${not #lists.isEmpty(users)}">
         <thead>
             <th>Position</th>

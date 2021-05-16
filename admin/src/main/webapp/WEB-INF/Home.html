@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Admin</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-    <div style="text-align: right">
+    <div class="right">
         <a th:href="@{/Logout}">Logout</a>
     </div>
 
@@ -30,12 +33,12 @@
 
         <h4>Marketing questions</h4>
         <ul>
-            <li th:each="q : ${questionnaire.getQuestions()}" th:text="${q.getQuestion()}"></li>
+            <li th:each="q : ${questionnaire.getQuestions()}" th:text="${q.getQuestion()}">Marketing question</li>
         </ul>
 
         <h4>Statistical questions</h4>
         <ul>
-            <li th:each="q : ${statistical}" th:text="${q.getQuestion()}"></li>
+            <li th:each="q : ${statistical}" th:text="${q.getQuestion()}">Statistical question</li>
         </ul>
     </div>
 </body>

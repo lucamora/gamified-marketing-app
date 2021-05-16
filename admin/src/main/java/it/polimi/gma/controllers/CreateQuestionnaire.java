@@ -52,13 +52,13 @@ public class CreateQuestionnaire extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String dateStr = request.getParameter("date");
         if (dateStr == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire date");
             return;
         }
 
         dateStr = dateStr.trim();
         if (dateStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire date");
             return;
         }
 
@@ -66,7 +66,7 @@ public class CreateQuestionnaire extends HttpServlet {
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
         } catch (ParseException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire date");
             return;
         }
 
@@ -84,7 +84,7 @@ public class CreateQuestionnaire extends HttpServlet {
         }
 
         if (questions.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Questionnaire must have at least one question");
             return;
         }
 

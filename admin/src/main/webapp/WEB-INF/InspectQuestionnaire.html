@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Inspect questionnaire</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-    <div style="text-align: right">
+    <div class="right">
         <a th:href="@{/Home}">Go to home</a>
         <a th:href="@{/Logout}">Logout</a>
     </div>
@@ -14,17 +17,21 @@
     <h2>Inspect questionnaire</h2>
 
     <form action="InspectQuestionnaire" method="GET">
-        <div>
-            <label for="questionnaire">Select the questionnaire:</label>
-            <select name="questionnaire" id="questionnaire">
-                <option value="">Select a questionnaire</option>
-                <option th:each="q : ${questionnaires}"
-                        th:value="${q.getId()}"
-                        th:text="${#strings.concat(q.getProduct().getName(),' (',#dates.format(q.getDate(),'yyyy-MM-dd'),')')}">val</option>
-            </select>
-        </div>
+        <fieldset>
+            <legend>Questionnaire</legend>
 
-        <input type="submit" value="inspect">
+            <div>
+                <label for="questionnaire">Select the questionnaire:</label>
+                <select name="questionnaire" id="questionnaire" required>
+                    <option value="">Select a questionnaire</option>
+                    <option th:each="q : ${questionnaires}"
+                            th:value="${q.getId()}"
+                            th:text="${#strings.concat(q.getProduct().getName(),' (',#dates.format(q.getDate(),'yyyy-MM-dd'),')')}">val</option>
+                </select>
+            </div>
+
+            <input type="submit" value="Inspect">
+        </fieldset>
     </form>
 
     <div th:if="${not (questionnaire == null)}">
@@ -34,13 +41,13 @@
         <h4>Users that submitted the questionnaire</h4>
         <ul>
             <li th:each="u : ${usersSubmitted}"
-                th:text="${#strings.concat(u.getUsername(),' (points: ',u.getPoints(),')')}"></li>
+                th:text="${#strings.concat(u.getUsername(),' (points: ',u.getPoints(),')')}">username (points: 0)</li>
         </ul>
 
         <h4>Users that cancelled the questionnaire</h4>
         <ul>
             <li th:each="c : ${questionnaire.getCancellations()}"
-                th:text="${#strings.concat(c.getUser().getUsername(),' (date: ',#dates.format(c.getDate(), 'yyyy-MM-dd HH:mm'),')')}"></li>
+                th:text="${#strings.concat(c.getUser().getUsername(),' (date: ',#dates.format(c.getDate(), 'yyyy-MM-dd HH:mm'),')')}">username (date: 2021-01-01 00:00</li>
         </ul>
 
         <h4>Questionnaire answers</h4>

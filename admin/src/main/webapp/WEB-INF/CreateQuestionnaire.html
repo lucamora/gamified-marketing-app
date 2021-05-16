@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Create questionnaire</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
     <h1>Gamified Marketing Application</h1>
@@ -11,15 +14,17 @@
     <form action="CreateQuestionnaire" method="POST">
         <fieldset>
             <legend>Questionnaire</legend>
+
             <div>
                 <label for="product">Product:</label>
-                <select id="product" name="product">
+                <select id="product" name="product" required>
                     <option value="">Select a product</option>
                     <option th:each="p : ${products}"
                             th:value="${p.getId()}"
                             th:text="${p.getName()}">val</option>
                 </select>
             </div>
+
             <div>
                 <label for="date">Publish date:</label>
                 <input type="date" id="date" name="date"
@@ -27,17 +32,23 @@
                        th:value="${#dates.format(date, 'yyyy-MM-dd')}"
                        required>
             </div>
+
             <div id="marketing_questions">
                 <div>
                     <label for="question_1">Question 1:</label>
                     <input type="text" id="question_1" name="question_1" required>
                 </div>
             </div>
-            <button type="button" onclick="addQuestion()">&plus;</button>
-        </fieldset>
 
-        <a th:href="@{/Home}"><button type="button">cancel</button></a>
-        <input type="submit" value="create">
+            <div>
+                <i>Add/remove question:</i>
+                <button type="button" onclick="addQuestion()">&plus;</button>
+                <button type="button" onclick="removeQuestion()">&minus;</button>
+            </div>
+
+            <a th:href="@{/Home}"><button type="button">Cancel</button></a>
+            <input type="submit" value="Create">
+        </fieldset>
     </form>
     <script>
         let questionsCount = 1;
@@ -60,6 +71,16 @@
             div.appendChild(label);
             div.appendChild(input);
             container.appendChild(div);
+        }
+        function removeQuestion() {
+            if (questionsCount <= 1) {
+                return;
+            }
+            questionsCount--;
+
+            let container = document.getElementById("marketing_questions");
+
+            container.removeChild(container.lastChild);
         }
     </script>
 </body>

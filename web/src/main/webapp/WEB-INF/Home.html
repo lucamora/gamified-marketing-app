@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Product of the day</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-    <div style="text-align: right">
+    <div class="right">
         <a th:href="@{/Logout}">Logout</a>
     </div>
 
@@ -23,7 +26,7 @@
         <div th:if="${not #lists.isEmpty(product.getReviews())}">
             <h4>Reviews</h4>
             <div th:each="rev : ${product.getReviews()}">
-                <div th:text="${rev.getUser().getUsername()}" style="font-style: italic">User</div>
+                <div th:text="${rev.getUser().getUsername()}" class="italic">User</div>
                 <div th:text="${rev.getComment()}">Review comment</div>
                 <hr th:if="${not revStat.last}"/>
             </div>
@@ -32,7 +35,7 @@
         <div th:if="${not userBlocked}">
             <h4>Questionnaire of the day</h4>
             <a th:if="${canSubmit}" th:href="@{/GetQuestionnaire}">Compile questionnaire</a>
-            <span th:if="${not canSubmit}" style="font-style: italic">Questionnaire of the day already submitted!</span>
+            <span th:if="${not canSubmit}" class="italic">Questionnaire of the day already submitted!</span>
         </div>
 
         <div>

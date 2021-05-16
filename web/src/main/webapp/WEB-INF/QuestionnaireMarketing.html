@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Questionnaire</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
     <h1>Gamified Marketing Application</h1>
     <h2>Questionnaire</h2>
 
-    <h3>Marketing questions</h3>
     <form>
-        <div th:each="q : ${questions}">
-            <label th:text="${q.getQuestion()}"
-                   th:for="${q.getId()}">Question</label>
-            <input type="text"
-                   th:name="${q.getId()}"
-                   th:id="${q.getId()}"
-                   th:value="${session.marketing} ? ${session.marketing[q.getId()]}"
-                   th:required="${q.getSection().isMandatory()}">
-            <br><br>
-        </div>
+        <fieldset>
+            <legend>Marketing questions</legend>
 
-        <input type="submit" name="next" value="next" formaction="GetQuestionnaire" formmethod="POST">
+            <div th:each="q : ${questions}">
+                <label th:text="${q.getQuestion()}"
+                       th:for="${q.getId()}">Question</label>
+                <input type="text"
+                       th:name="${q.getId()}"
+                       th:id="${q.getId()}"
+                       th:value="${session.marketing} ? ${session.marketing[q.getId()]}"
+                       th:required="${q.getSection().isMandatory()}">
+            </div>
+
+            <input type="submit" name="next" value="Next" formaction="GetQuestionnaire" formmethod="POST">
+        </fieldset>
     </form>
 </body>
 </html>

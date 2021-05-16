@@ -3,27 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Registration</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
     <h1>Gamified Marketing Application</h1>
     <h2>Registration</h2>
 
     <form action="Registration" method="POST">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+        <fieldset>
+            <legend>Register</legend>
 
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
 
-        <label for="confirmPassword">Confirm password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-        <input type="submit" value="register">
-        <p th:text=" ${errorMessage}"></p>
+            <div>
+                <label for="confirmPassword">Confirm password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <input type="submit" value="Register">
+            <a href="index.html">I already have an account</a>
+        </fieldset>
     </form>
-    <a href="index.html">I already have an account</a>
+
+    <p th:text=" ${errorMessage}"></p>
 </body>
 </html>

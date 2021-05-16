@@ -3,31 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Questionnaire</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
     <h1>Gamified Marketing Application</h1>
     <h2>Questionnaire</h2>
 
-    <h3>Statistical questions</h3>
     <form>
-        <div th:each="q : ${questions}">
-            <label th:text="${q.getQuestion()}"
-                   th:for="${q.getId()}">Question</label>
-            <select th:name="${q.getId()}"
-                    th:id="${q.getId()}"
-                    th:required="${q.getSection().isMandatory()}">
-                <option value="">Choose an option</option>
-                <option th:each="c : ${q.getChoices()}"
-                        th:value="${c.getAnswer()}"
-                        th:text="${c.getAnswer()}"
-                        th:selected="${session.statistical} ? ${#strings.equals(session.statistical[q.getId()], c.getAnswer())}">option</option>
-            </select>
-            <br><br>
-        </div>
+        <fieldset>
+            <legend>Statistical questions</legend>
 
-        <input type="submit" name="previous" value="previous" formaction="GetQuestionnaire" formmethod="POST">
-        <input type="submit" value="cancel" formaction="CancelQuestionnaire" formmethod="POST">
-        <input type="submit" value="submit" formaction="SubmitQuestionnaire" formmethod="POST">
+            <div th:each="q : ${questions}">
+                <label th:text="${q.getQuestion()}"
+                       th:for="${q.getId()}">Question</label>
+                <select th:if="${not #lists.isEmpty(q.getChoices())}"
+                        th:name="${q.getId()}"
+                        th:id="${q.getId()}"
+                        th:required="${q.getSection().isMandatory()}">
+                    <option value="">Choose an option</option>
+                    <option th:each="c : ${q.getChoices()}"
+                            th:value="${c.getAnswer()}"
+                            th:text="${c.getAnswer()}"
+                            th:selected="${session.statistical} ? ${#strings.equals(session.statistical[q.getId()], c.getAnswer())}">option</option>
+                </select>
+                <input th:if="${#lists.isEmpty(q.getChoices())}"
+                       type="text"
+                       th:name="${q.getId()}"
+                       th:id="${q.getId()}"
+                       th:value="${session.statistical} ? ${session.statistical[q.getId()]}"
+                       th:required="${q.getSection().isMandatory()}">
+            </div>
+
+            <input type="submit" name="previous" value="Previous" formaction="GetQuestionnaire" formmethod="POST">
+            <input type="submit" value="Cancel" formaction="CancelQuestionnaire" formmethod="POST">
+            <input type="submit" value="Submit" formaction="SubmitQuestionnaire" formmethod="POST">
+        </fieldset>
     </form>
 </body>
 </html>

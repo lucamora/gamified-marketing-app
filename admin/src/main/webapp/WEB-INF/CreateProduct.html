@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>GMA | Create product</title>
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../css/style.css" th:href="@{/css/style.css}"/>
 </head>
 <body>
     <h1>Gamified Marketing Application</h1>
@@ -11,19 +14,21 @@
     <form action="CreateProduct" method="POST" enctype="multipart/form-data">
         <fieldset>
             <legend>Product</legend>
+
             <div>
                 <label for="name">Product name:</label>
                 <input type="text" id="name" name="name" required>
             </div>
+
             <div>
                 <label for="image">Product image:</label>
                 <input type="file" id="image" name="image"
                        accept=".png">
             </div>
-        </fieldset>
 
-        <a th:href="@{/Home}"><button type="button">cancel</button></a>
-        <input type="submit" value="create">
+            <a th:href="@{/Home}"><button type="button">Cancel</button></a>
+            <input type="submit" value="Create">
+        </fieldset>
     </form>
 </body>
 </html>
