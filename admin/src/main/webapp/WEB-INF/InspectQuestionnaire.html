@@ -41,7 +41,7 @@
         <h4>Users that submitted the questionnaire</h4>
         <ul>
             <li th:each="u : ${usersSubmitted}"
-                th:text="${#strings.concat(u.getUsername(),' (points: ',u.getPoints(),')')}">username (points: 0)</li>
+                th:text="${u.getUsername()}">username</li>
         </ul>
 
         <h4>Users that cancelled the questionnaire</h4>
