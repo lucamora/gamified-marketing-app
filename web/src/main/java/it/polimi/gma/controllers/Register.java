@@ -48,6 +48,7 @@ public class Register extends HttpServlet {
 
         if (!pwd.equals(confpwd)) {
             invalidCredentials("Passwords do not match", request, response);
+            return;
         }
 
         try {
